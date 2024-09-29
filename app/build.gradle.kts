@@ -1,5 +1,6 @@
 plugins {
     alias(libs.plugins.android.application)
+    id("com.google.gms.google-services") version libs.versions.google.services.get() apply false
 }
 
 android {
@@ -42,6 +43,7 @@ dependencies {
     androidTestImplementation(libs.espresso.core)
     implementation(libs.play.services.auth)
     implementation(libs.volley) // để call api
+    implementation(libs.firebase.auth)
 
 
 }

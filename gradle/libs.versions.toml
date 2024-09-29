@@ -9,6 +9,8 @@ activity = "1.9.2"
 constraintlayout = "2.1.4"
 play-services-auth = "20.5.0"
 volley = "1.2.1"
+google-services = "4.3.10"  # Cập nhật phiên bản nếu cần
+firebase-auth = "21.0.1"
 
 [libraries]
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -20,7 +22,12 @@ activity = { group = "androidx.activity", name = "activity", version.ref = "acti
 constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
 play-services-auth = { group = "com.google.android.gms", name = "play-services-auth", version.ref = "play-services-auth" }
 volley = { group = "com.android.volley", name = "volley", version.ref = "volley" }
+google-services = { module = "com.google.gms:google-services", version.ref = "google-services" }
+
+firebase-auth = { group = "com.google.firebase", name = "firebase-auth", version.ref = "firebase-auth" }
+
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
+
 

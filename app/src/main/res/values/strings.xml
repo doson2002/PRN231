@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">PRN231</string>
-    <string name="server_client_id">252204356718-v011hqbdr6mse0momg3n68qdg1bq2iv6.apps.googleusercontent.com</string>
+    <string name="server_client_id">252204356718-hicga8rpguh25lpejtblp6tdjpgsp10n.apps.googleusercontent.com</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

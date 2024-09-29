@@ -1,11 +1,18 @@
 package com.example.prn231;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
@@ -18,6 +25,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.prn231.Api.ApiEndPoint;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -33,90 +41,93 @@ import java.util.Map;
 
 public class LoginActivity extends AppCompatActivity {
     private GoogleSignInClient mGoogleSignInClient;
-    private static final int RC_SIGN_IN = 100;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_login);
+
+        final Button loginButton = findViewById(R.id.loginButton);
+
         // Cấu hình Google Sign-In để lấy mã thông báo ID
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(getString(R.string.server_client_id))  // Thay bằng client ID từ Google Cloud Console
+                .requestIdToken(getString(R.string.server_client_id)) // Lấy ID token từ resources
                 .requestEmail()
                 .build();
 
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
 
-        findViewById(R.id.loginButton).setOnClickListener(v -> signIn());
+        // Kiểm tra xem người dùng đã đăng nhập hay chưa
+        GoogleSignInAccount googleSignInAccount = GoogleSignIn.getLastSignedInAccount(this);
+//        if (googleSignInAccount != null) {
+//            startActivity(new Intent(LoginActivity.this, MainActivity.class));
+//            finish();
+//        }
+
+        // Đăng ký kết quả Activity
+        ActivityResultLauncher<Intent> activityResultLauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                result -> {
+                    // Lấy tài khoản đã đăng nhập sau khi người dùng chọn tài khoản từ hộp thoại
+                    Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(result.getData());
+                    handleSignInTask(task);
+                });
+
+        // Xử lý sự kiện click cho nút đăng nhập
+        loginButton.setOnClickListener(view -> {
+            Intent signInIntent = mGoogleSignInClient.getSignInIntent();
+            activityResultLauncher.launch(signInIntent);
+        });
     }
 
-    private void signIn() {
-        Intent signInIntent = mGoogleSignInClient.getSignInIntent();
-        startActivityForResult(signInIntent, RC_SIGN_IN);
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        // Kết quả trả về từ Google Sign-In Intent
-        if (requestCode == RC_SIGN_IN) {
-            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
-            handleSignInResult(task);
-        }
-    }
-    private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
+    private void handleSignInTask(Task<GoogleSignInAccount> task) {
         try {
-            GoogleSignInAccount account = completedTask.getResult(ApiException.class);
-
-            // Đăng nhập thành công, lấy mã thông báo ID
-            String idToken = account.getIdToken();
-            sendTokenToBackend(idToken);  // Gửi mã token tới backend để xử lý
+            GoogleSignInAccount account = task.getResult(ApiException.class);
+            String idToken = account.getIdToken(); // Lấy ID token
+            sendTokenToBackend(idToken); // Gửi ID token đến backend
+            startActivity(new Intent(LoginActivity.this, MainActivity.class));
+            finish();
         } catch (ApiException e) {
-            Log.w("LoginActivity", "signInResult:failed code=" + e.getStatusCode());
-            Toast.makeText(this, "Login failed", Toast.LENGTH_SHORT).show();
+            e.printStackTrace();
+            Toast.makeText(this, "Login failed with error code: " + e.getStatusCode() +
+                    "\nMessage: " + e.getMessage(), Toast.LENGTH_LONG).show();
         }
     }
 
     private void sendTokenToBackend(String idToken) {
         // URL của backend nơi bạn xử lý xác thực
-        String url = "https://your-backend-server.com/api/google-signin";
+        String url = ApiEndPoint.LOGIN_GOOGLE;
 
         // Tạo RequestQueue
         RequestQueue queue = Volley.newRequestQueue(this);
 
         // Tạo yêu cầu POST
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        // Xử lý phản hồi từ server
-                        try {
-                            JSONObject jsonResponse = new JSONObject(response);
-                            boolean success = jsonResponse.getBoolean("success");
-                            if (success) {
-                                // Xác thực thành công
-                                Toast.makeText(LoginActivity.this, "Login Successful", Toast.LENGTH_SHORT).show();
-                            } else {
-                                // Xác thực thất bại
-                                Toast.makeText(LoginActivity.this, "Login Failed", Toast.LENGTH_SHORT).show();
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
+                response -> {
+                    // Xử lý phản hồi từ server
+                    try {
+                        JSONObject jsonResponse = new JSONObject(response);
+                        boolean success = jsonResponse.getBoolean("success");
+                        if (success) {
+                            // Xác thực thành công
+                            Toast.makeText(LoginActivity.this, "Login Successful", Toast.LENGTH_SHORT).show();
+                        } else {
+                            // Xác thực thất bại
+                            Toast.makeText(LoginActivity.this, "Login Failed", Toast.LENGTH_SHORT).show();
                         }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                // Xử lý lỗi
-                Toast.makeText(LoginActivity.this, "Error: " + error.getMessage(), Toast.LENGTH_SHORT).show();
-            }
+                }, error -> {
+            // Xử lý lỗi
+            Toast.makeText(LoginActivity.this, "Error: " + error.getMessage(), Toast.LENGTH_SHORT).show();
         }) {
             @Override
             protected Map<String, String> getParams() {
                 // Thêm mã token vào request body
                 Map<String, String> params = new HashMap<>();
-                params.put("id_token", idToken);
+                params.put("googleToken", idToken); // Đặt tên trường là googleToken
                 return params;
             }
         };
@@ -124,5 +135,5 @@ public class LoginActivity extends AppCompatActivity {
         // Thêm yêu cầu vào hàng đợi
         queue.add(stringRequest);
     }
-
 }
+

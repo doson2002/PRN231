@@ -19,6 +19,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -86,7 +87,7 @@ public class LoginActivity extends AppCompatActivity {
             GoogleSignInAccount account = task.getResult(ApiException.class);
             String idToken = account.getIdToken(); // Lấy ID token
             sendTokenToBackend(idToken); // Gửi ID token đến backend
-            startActivity(new Intent(LoginActivity.this, MainActivity.class));
+            startActivity(new Intent(LoginActivity.this, NavBottomStudentActivity.class));
             finish();
         } catch (ApiException e) {
             e.printStackTrace();
@@ -108,13 +109,27 @@ public class LoginActivity extends AppCompatActivity {
                     // Xử lý phản hồi từ server
                     try {
                         JSONObject jsonResponse = new JSONObject(response);
-                        boolean success = jsonResponse.getBoolean("success");
-                        if (success) {
-                            // Xác thực thành công
+                        boolean isSuccess = jsonResponse.getBoolean("isSuccess");
+                        boolean isFailure = jsonResponse.getBoolean("isFailure");
+
+                        if (isSuccess && !isFailure) {
+                            // Lấy dữ liệu từ JSON response
+                            JSONObject value = jsonResponse.getJSONObject("value");
+                            String accessToken = value.getString("accessToken");
+                            String refreshToken = value.getString("refreshToken");
+                            String refreshTokenExpiryTime = value.getString("refreshTokenExpiryTime");
+
+                            // Xác thực thành công, có thể lưu accessToken và refreshToken
+                            // Lưu hoặc xử lý token theo nhu cầu của bạn
                             Toast.makeText(LoginActivity.this, "Login Successful", Toast.LENGTH_SHORT).show();
+                            Log.d("Login", "Access Token: " + accessToken);
+                            Log.d("Login", "Refresh Token: " + refreshToken);
+                            Log.d("Login", "Refresh Token Expiry: " + refreshTokenExpiryTime);
                         } else {
                             // Xác thực thất bại
-                            Toast.makeText(LoginActivity.this, "Login Failed", Toast.LENGTH_SHORT).show();
+                            JSONObject error = jsonResponse.getJSONObject("error");
+                            String errorMessage = error.getString("message");
+                            Toast.makeText(LoginActivity.this, "Login Failed: " + errorMessage, Toast.LENGTH_SHORT).show();
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -124,16 +139,23 @@ public class LoginActivity extends AppCompatActivity {
             Toast.makeText(LoginActivity.this, "Error: " + error.getMessage(), Toast.LENGTH_SHORT).show();
         }) {
             @Override
-            protected Map<String, String> getParams() {
-                // Thêm mã token vào request body
-                Map<String, String> params = new HashMap<>();
-                params.put("googleToken", idToken); // Đặt tên trường là googleToken
-                return params;
+            public byte[] getBody() throws AuthFailureError {
+                // Tạo JSON object để gửi
+                Map<String, String> jsonBody = new HashMap<>();
+                jsonBody.put("googleToken", idToken);  // Truyền IdToken vào key "googleToken"
+
+                return new JSONObject(jsonBody).toString().getBytes();
+            }
+
+            @Override
+            public String getBodyContentType() {
+                return "application/json; charset=utf-8";
             }
         };
 
         // Thêm yêu cầu vào hàng đợi
         queue.add(stringRequest);
     }
+
 }
 

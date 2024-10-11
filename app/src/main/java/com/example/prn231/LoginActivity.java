@@ -1,8 +1,10 @@
 package com.example.prn231;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -87,8 +89,7 @@ public class LoginActivity extends AppCompatActivity {
             GoogleSignInAccount account = task.getResult(ApiException.class);
             String idToken = account.getIdToken(); // Lấy ID token
             sendTokenToBackend(idToken); // Gửi ID token đến backend
-            startActivity(new Intent(LoginActivity.this, NavBottomStudentActivity.class));
-            finish();
+
         } catch (ApiException e) {
             e.printStackTrace();
             Toast.makeText(this, "Login failed with error code: " + e.getStatusCode() +
@@ -116,15 +117,12 @@ public class LoginActivity extends AppCompatActivity {
                             // Lấy dữ liệu từ JSON response
                             JSONObject value = jsonResponse.getJSONObject("value");
                             String accessToken = value.getString("accessToken");
-                            String refreshToken = value.getString("refreshToken");
-                            String refreshTokenExpiryTime = value.getString("refreshTokenExpiryTime");
 
-                            // Xác thực thành công, có thể lưu accessToken và refreshToken
-                            // Lưu hoặc xử lý token theo nhu cầu của bạn
-                            Toast.makeText(LoginActivity.this, "Login Successful", Toast.LENGTH_SHORT).show();
-                            Log.d("Login", "Access Token: " + accessToken);
-                            Log.d("Login", "Refresh Token: " + refreshToken);
-                            Log.d("Login", "Refresh Token Expiry: " + refreshTokenExpiryTime);
+                            // Gọi hàm handleLoginResponse để xử lý token
+                            handleLoginResponse(accessToken);
+
+
+                            finish();
                         } else {
                             // Xác thực thất bại
                             JSONObject error = jsonResponse.getJSONObject("error");
@@ -156,6 +154,43 @@ public class LoginActivity extends AppCompatActivity {
         // Thêm yêu cầu vào hàng đợi
         queue.add(stringRequest);
     }
+    private void handleLoginResponse(String accessToken) {
+        try {
+            // Giải mã JWT để lấy payload
+            String[] tokenParts = accessToken.split("\\.");
+            String payload = new String(Base64.decode(tokenParts[1], Base64.DEFAULT));
+            JSONObject payloadObject = new JSONObject(payload);
+
+            // Lấy email và role từ payload
+            String email = payloadObject.getString("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress");
+            String role = payloadObject.getString("Role"); // hoặc payloadObject.getString("http://schemas.microsoft.com/ws/2008/06/identity/claims/role");
+
+            // Lưu vào SharedPreferences
+            SharedPreferences sharedPreferences = getSharedPreferences("PRN231", MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putString("accessToken", accessToken);
+            editor.putString("email", email);
+            editor.putString("role", role);
+            editor.apply();
+
+            // Chuyển hướng dựa vào role
+            if (role.equals("1")) {
+                startActivity(new Intent(LoginActivity.this, NavBottomStudentActivity.class));
+            } else if (role.equals("2")) {
+                startActivity(new Intent(LoginActivity.this, NavBottomMentorActivity.class));
+            }
+
+            // Hiển thị thông báo login thành công
+            Toast.makeText(LoginActivity.this, "Login Successful", Toast.LENGTH_SHORT).show();
+            finish();
+        } catch (JSONException e) {
+            e.printStackTrace();
+            Toast.makeText(LoginActivity.this, "Error parsing token", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+
+
 
 }
 

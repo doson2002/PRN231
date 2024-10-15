@@ -3,7 +3,21 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="orange">#FF9800</color>
-    <color name="blue">#0037FF</color>
+    <color name="blue">#0037FF</color>>
+    <color name="dark_royal_purple">#221F37</color>
+    <color name="royal_purple">#3F3D56</color>
+    <color name="plain_purple">#595675</color>
+    <color name="light_purple">#BFBED2</color>
+    <color name="tropical_blue">#63C7FF</color>
+    <color name="light_grey">#DCDCDC</color>
+    <color name="light_black">#E1E5E7</color>
+    <color name="blue1">#0324FB</color>
+    <color name="green">#009688</color>
 
+
+    <color name="colorHint">#888888</color> <!-- Màu hint (xám) -->
+    <color name="colorText">#000000</color> <!-- Màu text (đen) -->
+    <color name="light_orange">#E26238</color>
+    <color name="yellow">#FFEB3B</color>
 
 </resources>

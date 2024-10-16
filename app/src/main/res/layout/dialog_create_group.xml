@@ -44,7 +44,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="15dp"
             android:hint="Nhập Stack"
-            android:inputType="number" />
+            android:inputType="text" />
         <!-- Buttons to confirm or cancel -->
         <LinearLayout
             android:orientation="horizontal"

@@ -6,4 +6,8 @@ public class ApiEndPoint {
 
     // Các endpoint API
     public static final String LOGIN_GOOGLE = BASE_URL + "auth/login_google";
+
+    //
+    public static final String CREATE_GROUP = BASE_URL + "groups";
+
 }

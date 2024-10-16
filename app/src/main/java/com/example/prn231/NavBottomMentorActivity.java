@@ -6,16 +6,13 @@ import android.view.MenuItem;
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.example.prn231.Fragment.Mentor.HomeMentorFragment;
 import com.example.prn231.Fragment.Student.AccountFragment;
-import com.example.prn231.Fragment.Student.AddGroupFragment;
+import com.example.prn231.Fragment.Student.GroupFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class NavBottomMentorActivity extends AppCompatActivity {
@@ -40,7 +37,7 @@ public class NavBottomMentorActivity extends AppCompatActivity {
                         replaceFragment(new HomeMentorFragment());
                         break;
                     case R.id.addGroup:
-                        replaceFragment(new AddGroupFragment());
+                        replaceFragment(new GroupFragment());
                         break;
                     case R.id.account:
                         replaceFragment(new AccountFragment());

@@ -72,6 +72,7 @@ public class HomeStudentFragment extends Fragment {
             // Close the drawer after logout
             drawerLayout.closeDrawer(GravityCompat.START);
         });
+
     }
 
     private void performLogout() {

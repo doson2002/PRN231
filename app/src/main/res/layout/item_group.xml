@@ -1,4 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
-<selector xmlns:android="http://schemas.android.com/apk/res/android">
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    app:cardCornerRadius="8dp"
+    app:cardElevation="4dp"
+    app:cardBackgroundColor="@color/white">
 
-</selector>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <!-- Group Name -->
+        <TextView
+            android:id="@+id/textGroupName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Group Name"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <!-- Mentor Name -->
+        <TextView
+            android:id="@+id/textMentorName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Mentor: John Doe"
+            android:textColor="@color/colorText"
+            android:textSize="14sp"
+            android:layout_marginTop="4dp" />
+
+        <!-- Leader Name -->
+        <TextView
+            android:id="@+id/textLeaderName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Leader: Jane Smith"
+            android:textColor="@color/colorText"
+            android:textSize="14sp"
+            android:layout_marginTop="4dp" />
+
+        <!-- Project Name -->
+        <TextView
+            android:id="@+id/textProjectName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Project: Mobile App Development"
+            android:textColor="@color/colorText"
+            android:textSize="14sp"
+            android:layout_marginTop="4dp" />
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

@@ -17,5 +17,8 @@ public class GroupDetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_group_detail);
 
 
+
+
     }
+
 }

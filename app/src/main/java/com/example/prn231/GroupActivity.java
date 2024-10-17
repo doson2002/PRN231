@@ -2,6 +2,7 @@ package com.example.prn231;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +19,7 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.prn231.Api.ApiEndPoint;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.json.JSONException;
@@ -75,8 +77,9 @@ public class GroupActivity extends AppCompatActivity {
                 }
 
                 // Define the API endpoint URL
-                String url = "https://your-api-endpoint.com/api/group/create";
-
+                String url = ApiEndPoint.CREATE_GROUP;
+                SharedPreferences sharedPreferences = getSharedPreferences("PRN231", MODE_PRIVATE);
+                String accessToken = sharedPreferences.getString("accessToken","");
                 // Create a new StringRequest
                 JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, url, jsonBody,
                         response -> {
@@ -93,7 +96,7 @@ public class GroupActivity extends AppCompatActivity {
                         Map<String, String> headers = new HashMap<>();
                         headers.put("Content-Type", "application/json");
                         // Add any required headers, e.g., authentication token
-                        // headers.put("Authorization", "Bearer " + accessToken);
+                         headers.put("Authorization", "Bearer " + accessToken);
                         return headers;
                     }
                 };

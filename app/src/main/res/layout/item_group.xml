@@ -26,7 +26,7 @@
 
         <!-- Mentor Name -->
         <TextView
-            android:id="@+id/textMentorName"
+            android:id="@+id/textViewMentorName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Mentor: John Doe"
@@ -36,7 +36,7 @@
 
         <!-- Leader Name -->
         <TextView
-            android:id="@+id/textLeaderName"
+            android:id="@+id/textViewLeaderName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Leader: Jane Smith"
@@ -46,7 +46,7 @@
 
         <!-- Project Name -->
         <TextView
-            android:id="@+id/textProjectName"
+            android:id="@+id/textViewProjectName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Project: Mobile App Development"

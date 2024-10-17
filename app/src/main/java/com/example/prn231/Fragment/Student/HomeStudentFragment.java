@@ -18,10 +18,13 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.example.prn231.LoginActivity;
+import com.example.prn231.MentorPage;
 import com.example.prn231.R;
 import com.google.android.material.navigation.NavigationView;
 
@@ -71,6 +74,18 @@ public class HomeStudentFragment extends Fragment {
 
             // Close the drawer after logout
             drawerLayout.closeDrawer(GravityCompat.START);
+        });
+
+        // Set up the click listener for the ImageView
+        LinearLayout searchMentorButton = view.findViewById(R.id.btn_search_mentor);
+        searchMentorButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Handle the click action here
+                Toast.makeText(getContext(), "Button clicked!", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(getActivity(), MentorPage.class);
+                startActivity(intent);
+            }
         });
 
     }

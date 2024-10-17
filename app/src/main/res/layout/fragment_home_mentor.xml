@@ -120,6 +120,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/searchMentor"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
@@ -134,20 +135,22 @@
                     android:layout_height="100dp"
                     android:background="@drawable/rounded_button_background"
                     android:src="@drawable/baseline_search_24"
-                    android:scaleType="fitCenter" />
+                    android:scaleType="fitCenter"
+                    />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Searching mentor"
+                    android:text="Searching kakakk"
                     android:textColor="@color/orange"
                     android:textSize="16sp"
                     android:layout_gravity="center_horizontal" />
             </LinearLayout>
+
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <!-- Navigation View for the side menu -->
+<!--     Navigation View for the side menu -->
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/navigation_view"
         android:layout_width="wrap_content"

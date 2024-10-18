@@ -12,6 +12,8 @@ public class ApiEndPoint {
     public static final String CREATE_GROUP = BASE_URL_COMMAND + "groups";
     public static final String GET_ALL_GROUP = BASE_URL_QUERY + "groups";
     public static final String GET_GROUP_DETAIL = BASE_URL_QUERY + "groups";
+    public static final String ADD_MEMBER_TO_GROUP = BASE_URL_COMMAND + "groups/member";
+
 
     //User
     public static final String GET_USER_BY_EMAIL = BASE_URL_QUERY + "user";

@@ -56,6 +56,7 @@ public class GroupDetailActivity extends AppCompatActivity {
     private Member selectedMember;
     private TextView textViewSelectedMember;
     private ImageView imageViewRemoveMember;
+    private Dialog dialog;
 
 
     @Override
@@ -95,7 +96,7 @@ public class GroupDetailActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 // Khi người dùng nhấn vào TextView, hiển thị dialog thêm thành viên
-                showAddMemberDialog(accessToken);
+                showAddMemberDialog(accessToken, groupId);
             }
         });
     }
@@ -164,9 +165,9 @@ public class GroupDetailActivity extends AppCompatActivity {
         // Thêm request vào hàng đợi của Volley
         Volley.newRequestQueue(this).add(jsonObjectRequest);
     }
-    private void showAddMemberDialog(String accessToken) {
+    private void showAddMemberDialog(String accessToken, String groupId) {
         // Tạo dialog mới
-        Dialog dialog = new Dialog(this);
+        dialog = new Dialog(this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE); // Tắt tiêu đề của dialog
         dialog.setContentView(R.layout.dialog_add_member);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
@@ -241,8 +242,8 @@ public class GroupDetailActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // Thực hiện hành động thêm thành viên ở đây
-                Toast.makeText(GroupDetailActivity.this, "Member added!", Toast.LENGTH_SHORT).show();
-                dialog.dismiss();
+                callApiAddMemberToGroup(groupId,accessToken);
+
             }
         });
 
@@ -272,6 +273,84 @@ public class GroupDetailActivity extends AppCompatActivity {
             textViewSelectedMember.setText(selectedMember.getEmail());
         }
     }
+    
+
+private void callApiAddMemberToGroup(String groupId, String accessToken) {
+    String url = ApiEndPoint.ADD_MEMBER_TO_GROUP; // URL của API
+
+    // Tạo dữ liệu JSON cần gửi
+    JSONObject jsonBody = new JSONObject();
+    try {
+        jsonBody.put("groupId", groupId);
+        jsonBody.put("memberId", selectedMember.getUserId());
+    } catch (JSONException e) {
+        e.printStackTrace();
+    }
+
+    // Tạo một request mới
+    JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
+            Request.Method.POST, // POST method
+            url,
+            jsonBody,
+            new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
+                    // Xử lý response thành công từ API
+                    memberList.add(selectedMember); // Thêm thành viên vào danh sách
+                    Toast.makeText(GroupDetailActivity.this, "Thành viên đã được thêm vào nhóm!", Toast.LENGTH_SHORT).show();
+
+                    // Cập nhật danh sách thành viên trong adapter và đóng dialog
+                    memberAdapter.updateMemberList(memberList);
+                    dialog.dismiss(); // Đóng dialog sau khi thêm thành viên thành công
+                }
+            },
+            new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                   // Kiểm tra xem lỗi có phải là phản hồi từ server với mã 422 không
+                    if (error.networkResponse != null && error.networkResponse.statusCode == 400) {
+                        try {
+                            // Chuyển đổi phản hồi lỗi thành chuỗi
+                            String responseBody = new String(error.networkResponse.data, "utf-8");
+                            JSONObject data = new JSONObject(responseBody);
+                            String errorMessage = data.getString("detail");
+
+                            // Hiển thị lỗi chi tiết từ API
+                            if (errorMessage.equals("Member already joined group")) {
+                                Toast.makeText(GroupDetailActivity.this, "Thành viên đã tham gia nhóm trước đó!", Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(GroupDetailActivity.this, "Lỗi: " + errorMessage, Toast.LENGTH_SHORT).show();
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    } else {
+                        // Các lỗi khác
+                        Toast.makeText(GroupDetailActivity.this, "Lỗi khi thêm thành viên!", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+    ){
+        @Override
+        public Map<String, String> getHeaders() {
+            Map<String, String> headers = new HashMap<>();
+            headers.put("Content-Type", "application/json");
+            // Add any required headers, e.g., authentication token
+            headers.put("Authorization", "Bearer " + accessToken);
+            return headers;
+        }
+    };
+
+    // Set the request timeout policy if needed
+    jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(
+            5000,
+            DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+            DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
+    // Tạo request queue và thêm request vào hàng đợi
+    RequestQueue requestQueue = Volley.newRequestQueue(this);
+    requestQueue.add(jsonObjectRequest);
+}
 
     // Giả lập hàm gọi API searchMember
     private void fetchUsersByEmail(int memberCount, String emailKeyword, String accessToken) {
@@ -298,16 +377,20 @@ public class GroupDetailActivity extends AppCompatActivity {
                                 // Clear and update the member list
                                 List<Member> fetchedMembers = new ArrayList<>();
                                 for (int i = 0; i < members.length(); i++) {
-                                    JSONObject member = members.getJSONObject(i);
-                                    String email = member.getString("email");
-                                    String fullName = member.getString("fullName");
+                                    JSONObject memberJson = members.getJSONObject(i);
+                                    String userId = memberJson.getString("userId");
+                                    String email = memberJson.getString("email");
+                                    String fullName = memberJson.getString("fullName");
+                                    Member member = new Member(email, fullName);
+                                    member.setUserId(userId);
                                     // Thêm member vào danh sách
-                                    fetchedMembers.add(new Member(email, fullName));
+                                    fetchedMembers.add(member);
                                     // Xử lý thông tin member (hiển thị lên UI, ...)
                                     Toast.makeText(GroupDetailActivity.this, "Email: " + email + "\nFull Name: " + fullName, Toast.LENGTH_SHORT).show();
                                 }
                                 // Cập nhật adapter với danh sách member mới
                                 memberAdapterSearch.updateMemberList(fetchedMembers);
+                                membersListSearch = fetchedMembers;
                                 // Kiểm tra xem danh sách có rỗng không
                                 if (fetchedMembers.isEmpty()) {
                                     cardViewMember.setVisibility(View.GONE); // Ẩn CardView

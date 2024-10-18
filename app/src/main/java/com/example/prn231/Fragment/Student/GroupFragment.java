@@ -4,6 +4,8 @@ import static android.content.Context.MODE_PRIVATE;
 
 import android.app.Dialog;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,29 +18,60 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.prn231.Adapter.GroupAdapter;
 import com.example.prn231.Api.ApiEndPoint;
+import com.example.prn231.DTO.Group;
+import com.example.prn231.DTO.Member;
 import com.example.prn231.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class GroupFragment extends Fragment {
     private FloatingActionButton fabAddGroup;
+    private RecyclerView recyclerViewList;
+    private GroupAdapter groupAdapter;
+    private List<Group> groupList;
+    private RequestQueue requestQueue;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.activity_group, container, false);
+        SharedPreferences sharedPreferences = requireContext().getSharedPreferences("PRN231", MODE_PRIVATE);
+        String accessToken = sharedPreferences.getString("accessToken","");
+        recyclerViewList = view.findViewById(R.id.recyclerViewList);
+
+
+
+        // Set up RecyclerView
+        recyclerViewList.setLayoutManager(new LinearLayoutManager(getContext()));
+        groupList = new ArrayList<>();
+        groupAdapter = new GroupAdapter(groupList, requireContext());
+        recyclerViewList.setAdapter(groupAdapter);
+// Khởi tạo RequestQueue của Volley
+        requestQueue = Volley.newRequestQueue(getContext());
+        // Gọi hàm để load dữ liệu từ API
+        loadGroupDataFromAPI(accessToken);
+
 
         fabAddGroup = view.findViewById(R.id.fabAddGroup);
         fabAddGroup.setOnClickListener(v -> {
@@ -47,6 +80,8 @@ public class GroupFragment extends Fragment {
             dialog.setContentView(R.layout.dialog_create_group);
             dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             dialog.setCancelable(false);
+            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
 
             // Get references to the views in the dialog
             EditText editTextGroupName = dialog.findViewById(R.id.editTextGroupName);
@@ -83,14 +118,14 @@ public class GroupFragment extends Fragment {
 
                 // Define the API endpoint URL
                 String url = ApiEndPoint.CREATE_GROUP;
-                SharedPreferences sharedPreferences = requireContext().getSharedPreferences("PRN231", MODE_PRIVATE);
-                String accessToken = sharedPreferences.getString("accessToken","");
+
                 // Create a new JsonObjectRequest
                 JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, url, jsonBody,
                         response -> {
                             // Handle successful response
                             Toast.makeText(requireContext(), "Group created successfully!", Toast.LENGTH_SHORT).show();
                             dialog.dismiss();
+                            loadGroupDataFromAPI(accessToken);
                         },
                         error -> {
                             // Handle error response
@@ -123,4 +158,79 @@ public class GroupFragment extends Fragment {
 
         return view;
     }
+
+    private void loadGroupDataFromAPI(String accessToken) {
+        String url = ApiEndPoint.GET_ALL_GROUP;  // Đổi thành URL API của bạn
+
+        // Sử dụng JsonObjectRequest vì response trả về là một đối tượng JSON
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
+                Request.Method.GET,
+                url,
+                null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            // Kiểm tra nếu yêu cầu thành công
+                            if (response.getBoolean("isSuccess")) {
+                                // Lấy mảng "value" từ đối tượng JSON
+                                JSONArray valueArray = response.getJSONArray("value");
+
+                                // Lặp qua từng object trong mảng "value"
+                                for (int i = 0; i < valueArray.length(); i++) {
+                                    JSONObject groupObj = valueArray.getJSONObject(i);
+
+                                    // Parse các trường từ từng object trong mảng
+                                    String groupId = groupObj.getString("groupId");
+                                    String name = groupObj.getString("name");
+                                    String mentorName = groupObj.optString("mentorName", "N/A");  // Nếu mentorName là null, trả về "N/A"
+                                    String leaderName = groupObj.getString("leaderName");
+                                    String projectName = groupObj.optString("projectName", "Has No Project Yet");
+
+                                    // Tạo object Group và thêm vào danh sách
+                                    Group group = new Group(groupId, name, mentorName, leaderName, projectName, new ArrayList<Member>());
+                                    groupList.add(group);
+                                }
+
+                                // Thông báo cho adapter dữ liệu đã thay đổi
+                                groupAdapter.notifyDataSetChanged();
+                            } else {
+                                // Xử lý nếu API trả về isSuccess = false
+                                Toast.makeText(getContext(), "API call was not successful", Toast.LENGTH_SHORT).show();
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            Toast.makeText(getContext(), "JSON parsing error", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        error.printStackTrace();
+                        Toast.makeText(getContext(), "API call failed", Toast.LENGTH_SHORT).show();
+                    }
+                }
+        ){
+            @Override
+            public Map<String, String> getHeaders() {
+                Map<String, String> headers = new HashMap<>();
+                headers.put("Content-Type", "application/json");
+                // Add any required headers, e.g., authentication token
+                headers.put("Authorization", "Bearer " + accessToken);
+                return headers;
+            }
+        };
+
+        // Set the request timeout policy if needed
+        jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(
+                5000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
+        // Thêm request vào hàng đợi của Volley
+        requestQueue.add(jsonObjectRequest);
+    }
+
+
 }

@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -34,50 +36,120 @@
             android:textStyle="bold"
             android:textSize="20dp"
             android:textColor="@color/black"
-            android:background="@color/light_black"
+            android:background="#E0E0E0"
             android:gravity="center"/>
     </LinearLayout>
     <!-- Tên nhóm -->
-    <TextView
-        android:id="@+id/groupName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Tên Group"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        android:layout_margin="10dp"
-        android:layout_gravity="center"
-        android:textColor="@color/black"
-        android:layout_marginBottom="8dp"/>
 
-    <!-- Mô tả của nhóm -->
-    <TextView
-        android:id="@+id/groupDescription"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Mô tả của Group"
-        android:layout_marginLeft="10dp"
-        android:textSize="16sp"
-        android:textColor="@color/black"
-        android:layout_marginBottom="16dp"/>
 
-    <!-- RecyclerView để hiển thị danh sách thành viên -->
-    <TextView
-        android:id="@+id/membersTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Thành viên:"
-        android:textSize="18sp"
-        android:layout_margin="10dp"
-        android:textStyle="bold"
-        android:textColor="@color/black"
-        android:layout_marginBottom="8dp"/>
+        <!-- Booking ID -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingHorizontal="16dp"
+            android:background="@color/white"
+            android:layout_marginTop="8dp">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerViewMembers"
+            <TextView
+                android:id="@+id/tvBookingLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Group name: "
+                android:textSize="20sp"
+                android:textColor="@color/black"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/groupName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:textColor="@color/black"
+                android:text="A-6SW8LNTWWI58"
+                android:textSize="18sp" />
+        </LinearLayout>
+
+
+    <!-- Booking ID -->
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:layout_marginBottom="16dp"
-        android:scrollbars="vertical"/>
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingHorizontal="16dp"
+        android:background="@color/white"
+        android:layout_marginTop="8dp">
+
+        <TextView
+            android:id="@+id/tvDescription"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Group description: "
+            android:textSize="20sp"
+            android:textColor="@color/black"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/groupDescription"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:textColor="@color/black"
+            android:text="A-6SW8LNTWWI58"
+            android:textSize="18sp" />
+    </LinearLayout>
+
+
+    <!-- card_members.xml -->
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        app:cardElevation="4dp"
+        app:cardCornerRadius="8dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@color/white"
+            android:padding="16dp">
+
+            <!-- Tiêu đề cho danh sách thành viên -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="5dp">
+
+                <TextView
+                    android:id="@+id/textViewOrderSummary"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Members: "
+                    android:layout_marginHorizontal="10dp"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:textColor="@android:color/black"/>
+
+                <TextView
+                    android:id="@+id/textViewAddMember"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Add member"
+                    android:textColor="@color/light_orange"
+                    android:textSize="14sp"
+                    android:padding="4dp"/>
+            </LinearLayout>
+
+            <!-- RecyclerView để hiển thị danh sách thành viên -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerViewMembers"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:scrollbars="vertical"/>
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
 </LinearLayout>

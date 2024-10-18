@@ -11,6 +11,8 @@ play-services-auth = "20.5.0"
 volley = "1.2.1"
 google-services = "4.3.10"  # Cập nhật phiên bản nếu cần
 firebase-auth = "21.0.1"
+recyclerview = "1.2.1"
+retrofit = "2.9.0"
 
 [libraries]
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -23,7 +25,9 @@ constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayo
 play-services-auth = { group = "com.google.android.gms", name = "play-services-auth", version.ref = "play-services-auth" }
 volley = { group = "com.android.volley", name = "volley", version.ref = "volley" }
 google-services = { module = "com.google.gms:google-services", version.ref = "google-services" }
-
+retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
+converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "retrofit" }
+recyclerview = { module = "androidx.recyclerview:recyclerview", version.ref = "recyclerview" }
 firebase-auth = { group = "com.google.firebase", name = "firebase-auth", version.ref = "firebase-auth" }
 
 

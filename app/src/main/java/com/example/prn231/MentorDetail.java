@@ -3,7 +3,6 @@ package com.example.prn231;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -11,27 +10,18 @@ import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.prn231.Adapter.GetAllMentorAdapter;
-import com.example.prn231.Adapter.GetAllMentorSkillsApdater;
 import com.example.prn231.Adapter.GetMentorDetailSkillAdapter;
+import com.example.prn231.Adapter.GetMentorDetailSlotsAdapter;
 import com.example.prn231.Api.MentorApi;
-import com.example.prn231.Model.Mentor;
-import com.example.prn231.Model.ResponseModel;
 import com.example.prn231.Model.ResponseSingelModel;
-import com.example.prn231.Model.Skill;
+import com.example.prn231.Model.Schedule;
 import com.example.prn231.Services.MentorServices;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -41,9 +31,12 @@ public class MentorDetail extends AppCompatActivity {
     MentorApi mentorServices;
     RecyclerView recyclerViewSkills;
     GetMentorDetailSkillAdapter skillAdapter;
-//    private List<Skill> skillList = new ArrayList<>();
 
-    TextView pointTextView, dateJoinTextView, nameTextView, emailTextView;
+    List<Schedule> scheduleList = new ArrayList<>();
+    RecyclerView recyclerViewsSchedules;
+    GetMentorDetailSlotsAdapter scheduleAdapter;
+
+    TextView pointTextView, dateJoinTextView, nameTextView, emailTextView, mentorSkillTitle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,9 +51,8 @@ public class MentorDetail extends AppCompatActivity {
         emailTextView = findViewById(R.id.tvMentorEmail);
         pointTextView = findViewById(R.id.tvMentorPoints);
         dateJoinTextView = findViewById(R.id.tvMentorDateJoin);
+        mentorSkillTitle = findViewById(R.id.tvMentorSkillsTitle);
         recyclerViewSkills = findViewById(R.id.rvSkills);
-
-
 
         ImageView backArrow = findViewById(R.id.back_arrow);
         // Set an OnClickListener to handle the back navigation
@@ -97,7 +89,11 @@ public class MentorDetail extends AppCompatActivity {
                             pointTextView.setText(points.toString()); // Chuyển đổi thành chuỗi
                             dateJoinTextView.setText(mentor.getCreatedOnUtc());
 
-//                            Log.d("Skills", mentor.getSkills().get(0).getSkillName());
+                            if (mentor.getSkills().size() == 0) {
+                                mentorSkillTitle.setVisibility(View.GONE);  // Hides the view and removes it from the layout
+                            } else {
+                                mentorSkillTitle.setVisibility(View.VISIBLE);  // Shows the view
+                            }
 
                             LinearLayoutManager layoutManager = new LinearLayoutManager(MentorDetail.this);
                             recyclerViewSkills.setLayoutManager(layoutManager);
@@ -119,5 +115,18 @@ public class MentorDetail extends AppCompatActivity {
             }
         });
 
+        //scheduleList
+        scheduleList.add(new Schedule("1", "09:00", "11:00", 0, true));
+        scheduleList.add(new Schedule("2", "09:00", "11:00", 1, false));
+        scheduleList.add(new Schedule("3", "09:00", "11:00", 1, true));
+        scheduleList.add(new Schedule("4", "09:00", "11:00", 0, false));
+        scheduleList.add(new Schedule("5", "09:00", "11:00", 0, false));
+        scheduleList.add(new Schedule("6", "09:00", "11:00", 1, true));
+
+        recyclerViewsSchedules = findViewById(R.id.rvSlots);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(MentorDetail.this);
+        recyclerViewsSchedules.setLayoutManager(layoutManager);
+        scheduleAdapter = new GetMentorDetailSlotsAdapter(scheduleList);
+        recyclerViewsSchedules.setAdapter(scheduleAdapter);
     }
 }

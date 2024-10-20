@@ -13,7 +13,8 @@
     <color name="light_black">#E1E5E7</color>
     <color name="blue1">#0324FB</color>
     <color name="green">#009688</color>
-
+    <color name="booked_color">#FF0000</color> <!-- Red for booked -->
+    <color name="idle_color">#00FF00</color>   <!-- Green for idle -->
 
     <color name="colorHint">#888888</color> <!-- Màu hint (xám) -->
     <color name="colorText">#000000</color> <!-- Màu text (đen) -->

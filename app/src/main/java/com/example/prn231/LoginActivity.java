@@ -175,9 +175,10 @@ public class LoginActivity extends AppCompatActivity {
             editor.apply();
 
             // Chuyển hướng dựa vào role
-            if (role.equals("1") || role.equals("0")) {
+
+            if (role.equals("0")) {
                 startActivity(new Intent(LoginActivity.this, NavBottomStudentActivity.class));
-            } else if (role.equals("2")) {
+            } else if (role.equals("1")) {
                 startActivity(new Intent(LoginActivity.this, NavBottomMentorActivity.class));
             }
 

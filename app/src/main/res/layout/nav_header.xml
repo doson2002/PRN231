@@ -34,10 +34,10 @@
 
     <!-- Balance Information -->
     <TextView
-        android:id="@+id/user_balance"
+        android:id="@+id/user_point"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Balance: 0.0 VND"
+        android:text="Point: 0"
         android:textSize="16sp"
         android:textColor="@android:color/black"
         android:layout_marginTop="4dp"/>

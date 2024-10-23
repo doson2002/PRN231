@@ -164,17 +164,18 @@ public class LoginActivity extends AppCompatActivity {
             // Lấy email và role từ payload
             String email = payloadObject.getString("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress");
             String role = payloadObject.getString("Role"); // hoặc payloadObject.getString("http://schemas.microsoft.com/ws/2008/06/identity/claims/role");
-
+            String userId = payloadObject.getString("UserId");
             // Lưu vào SharedPreferences
             SharedPreferences sharedPreferences = getSharedPreferences("PRN231", MODE_PRIVATE);
             SharedPreferences.Editor editor = sharedPreferences.edit();
             editor.putString("accessToken", accessToken);
             editor.putString("email", email);
             editor.putString("role", role);
+            editor.putString("userId", userId);
             editor.apply();
 
             // Chuyển hướng dựa vào role
-            if (role.equals("1")) {
+            if (role.equals("1") || role.equals("0")) {
                 startActivity(new Intent(LoginActivity.this, NavBottomStudentActivity.class));
             } else if (role.equals("2")) {
                 startActivity(new Intent(LoginActivity.this, NavBottomMentorActivity.class));

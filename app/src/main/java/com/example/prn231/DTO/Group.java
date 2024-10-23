@@ -8,8 +8,13 @@ public class Group {
     private String stack;
     private String mentorName;
     private String leaderName;
+    private String mentorEmail;
+
     private String projectName;
+    private String projectDescription;
     private List<Member> members;
+
+
 
     // Constructor, Getters, and Setters
     public Group(String id, String name, String mentorName, String leaderName, String projectName, List<Member> members) {
@@ -19,6 +24,22 @@ public class Group {
         this.leaderName = leaderName;
         this.projectName = projectName;
         this.members = members;
+    }
+
+    public String getMentorEmail() {
+        return mentorEmail;
+    }
+
+    public void setMentorEmail(String mentorEmail) {
+        this.mentorEmail = mentorEmail;
+    }
+
+    public String getProjectDescription() {
+        return projectDescription;
+    }
+
+    public void setProjectDescription(String projectDescription) {
+        this.projectDescription = projectDescription;
     }
 
     public void setId(String id) {

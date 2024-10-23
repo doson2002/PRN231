@@ -1,11 +1,9 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     app:cardCornerRadius="16dp"
-    app:cardBackgroundColor="@color/white"
-    android:background="@android:color/transparent">
+    app:cardBackgroundColor="@color/white">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -29,63 +27,24 @@
         </LinearLayout>
 
         <EditText
-            android:id="@+id/editTextSearchMember"
+            android:id="@+id/editTextProjectName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="@color/colorText"
-            android:hint="     Search by email"
-            android:drawableLeft="@drawable/baseline_search_24"
+            android:hint="Input project name"
             android:layout_margin="15dp"
             android:textColorHint="@color/colorHint"
             android:inputType="text" />
-        <!-- Layout hiển thị thành viên đã chọn -->
-        <LinearLayout
-            android:id="@+id/selectedMembersLayout"
+
+        <EditText
+            android:id="@+id/editTextDescription"
             android:layout_width="match_parent"
+            android:textColor="@color/black"
+            android:textColorHint="@color/colorHint"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:visibility="gone"
-            android:padding="8dp">
-
-            <TextView
-                android:id="@+id/textViewSelectedEmail"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:textColor="@color/black"
-                android:textSize="16sp"
-                android:padding="8dp"/>
-
-            <ImageView
-                android:id="@+id/closeButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/baseline_close_24"
-                android:contentDescription="remove member"/>
-        </LinearLayout>
-
-
-        <!-- CardView chứa danh sách thành viên -->
-        <androidx.cardview.widget.CardView
-            android:id="@+id/cardViewMember"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:cardCornerRadius="12dp"
-            app:cardElevation="5dp"
-            app:cardBackgroundColor="@color/white"
-            android:layout_marginTop="10dp">
-
-            <!-- RecyclerView hiển thị danh sách thành viên -->
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerViewMembers"
-                android:layout_width="match_parent"
-                android:layout_margin="10dp"
-                android:layout_height="wrap_content"
-                tools:listitem="@layout/item_member"/>
-
-        </androidx.cardview.widget.CardView>
-
-
+            android:layout_margin="15dp"
+            android:hint="Input description"
+            android:inputType="text" />
         <!-- Buttons to confirm or cancel -->
         <LinearLayout
             android:orientation="horizontal"
@@ -100,7 +59,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginRight="10dp"
                 android:background="@drawable/button_background"
-                android:text="Cancel" />
+                android:text="Hủy" />
 
             <Button
                 android:id="@+id/buttonConfirm"
@@ -108,7 +67,7 @@
                 android:layout_height="wrap_content"
                 android:padding="10dp"
                 android:background="@drawable/button_background"
-                android:text="Add" />
+                android:text="Tạo" />
 
         </LinearLayout>
 

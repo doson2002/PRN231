@@ -1,5 +1,6 @@
 package com.example.prn231.Adapter;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -7,6 +8,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.prn231.MentorDetail;
+import com.example.prn231.MentorDetailBooking;
 import com.example.prn231.Model.Schedule;
 import com.example.prn231.R;
 
@@ -35,6 +39,24 @@ public class GetMentorDetailSlotsAdapter extends RecyclerView.Adapter<GetMentorD
         Schedule schedule = scheduleList.get(position);
         holder.slotTime.setText(schedule.getStart() != null && schedule.getEnd() != null
                 ? schedule.getStart() + "-" + schedule.getEnd() : "N/A");
+
+        holder.slotTime.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Create an Intent to start the MentorDetailActivity
+                Intent intent = new Intent(v.getContext(), MentorDetailBooking.class);
+
+                // Pass the mentor details to the activity
+                intent.putExtra("mentorStart", schedule.getStart());
+                intent.putExtra("mentorEnd", schedule.getEnd());
+                intent.putExtra("mentorStart", schedule.getStart());
+                intent.putExtra("mentorEnd", schedule.getEnd());
+
+                // Start the activity
+                v.getContext().startActivity(intent);
+            }
+        });
+
         if(schedule.getType() == 0) {
             holder.slotType.setText("Offline");
         }

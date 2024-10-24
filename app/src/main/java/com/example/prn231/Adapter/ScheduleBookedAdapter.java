@@ -1,8 +1,14 @@
 package com.example.prn231.Adapter;
 
+import android.app.Dialog;
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -42,6 +48,12 @@ public class ScheduleBookedAdapter extends RecyclerView.Adapter<ScheduleBookedAd
             holder.tvFeedBackStatus.setText("Chưa feedback");
             holder.tvAddFeedback.setVisibility(View.VISIBLE);
         }
+        holder.tvAddFeedback.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showFeedbackDialog(holder.itemView.getContext());
+            }
+        });
     }
     // Cập nhật danh sách members
     public void updateScheduleList(ScheduleBooked scheduleBooked) {
@@ -66,5 +78,49 @@ public class ScheduleBookedAdapter extends RecyclerView.Adapter<ScheduleBookedAd
             tvAddFeedback = itemView.findViewById(R.id.tvAddFeedback);
 
         }
+    }
+    private void showFeedbackDialog(Context context) {
+        // Tạo Dialog
+        Dialog dialog = new Dialog(context);
+        dialog.setContentView(R.layout.dialog_feedback); // Sử dụng layout mà bạn đã cung cấp
+
+        // Tìm các view bên trong dialog
+        EditText editTextFeedback = dialog.findViewById(R.id.editTextProjectName);
+        RatingBar ratingBar = dialog.findViewById(R.id.ratingBarInput);
+        Button buttonConfirm = dialog.findViewById(R.id.buttonConfirm);
+        Button buttonCancel = dialog.findViewById(R.id.buttonCancel);
+        ImageView closeButton = dialog.findViewById(R.id.close_button);
+
+        // Đóng dialog khi nhấn vào nút "Hủy" hoặc biểu tượng "X"
+        buttonCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        closeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        // Xử lý khi người dùng nhấn nút "Tạo"
+        buttonConfirm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String feedback = editTextFeedback.getText().toString();
+                float rating = ratingBar.getRating();
+
+                // Thực hiện hành động sau khi người dùng nhập feedback và đánh giá
+                // Ví dụ: gửi feedback lên server hoặc cập nhật giao diện
+
+                dialog.dismiss(); // Đóng dialog sau khi xác nhận
+            }
+        });
+
+        // Hiển thị dialog
+        dialog.show();
     }
 }

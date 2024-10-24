@@ -63,7 +63,7 @@ public class HistoryFragment extends Fragment {
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences("PRN231", getActivity().MODE_PRIVATE);        String token = sharedPreferences.getString("JwtToken", null);
         String accessToken = sharedPreferences.getString("accessToken","");
 
-        fetchScheduleFromApi(userId, accessToken);
+        fetchScheduleFromApi(accessToken);
         recyclerView = view.findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(adapter);
@@ -72,11 +72,13 @@ public class HistoryFragment extends Fragment {
         int marginEnd = 50; // Ví dụ: bạn có thể đặt giá trị này phù hợp với yêu cầu
         recyclerView.addItemDecoration(new ItemDecorationDividerForActivity(getActivity(), R.drawable.divider, marginStart, marginEnd));
 
+
+
         return  view;
 
 
     }
-    private void fetchOrdersFromApi(String jwtToken) {
+    private void fetchScheduleFromApi(String jwtToken) {
         String url = ApiEndPoint.GET_SCHEDULE_BOOKED;  // Thay thế bằng URL API của bạn
 
         // Initialize a request queue

@@ -35,9 +35,8 @@ public class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.MemberView
         holder.memberInfo.setText(member.getFullName() + " - " + member.getEmail());
     }
     // Cập nhật danh sách members
-    public void updateMemberList(List<Member> newMembers) {
-        this.memberList.clear();
-        this.memberList.addAll(newMembers);
+    public void updateMemberList(Member newMember) {
+        this.memberList.add(newMember);
         notifyDataSetChanged();  // Thông báo cho RecyclerView rằng dữ liệu đã thay đổi
     }
 

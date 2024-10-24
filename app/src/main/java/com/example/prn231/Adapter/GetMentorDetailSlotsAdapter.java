@@ -18,11 +18,14 @@ import java.util.List;
 
 public class GetMentorDetailSlotsAdapter extends RecyclerView.Adapter<GetMentorDetailSlotsAdapter.ItemViewHolder>{
     private List<Schedule> scheduleList;
+    private String mentorId;
+    private String mentorName;
 
-    public GetMentorDetailSlotsAdapter(List<Schedule> scheduleList) {
+    public GetMentorDetailSlotsAdapter(List<Schedule> scheduleList, String mentorId, String mentorName) {
         this.scheduleList = scheduleList;
+        this.mentorId = mentorId;
+        this.mentorName = mentorName;
     }
-
 
     @NonNull
     @Override
@@ -37,8 +40,8 @@ public class GetMentorDetailSlotsAdapter extends RecyclerView.Adapter<GetMentorD
     @Override
     public void onBindViewHolder(@NonNull ItemViewHolder holder, int position) {
         Schedule schedule = scheduleList.get(position);
-        holder.slotTime.setText(schedule.getStart() != null && schedule.getEnd() != null
-                ? schedule.getStart() + "-" + schedule.getEnd() : "N/A");
+        holder.slotTime.setText(schedule.getStartTime() != null && schedule.getEndTime() != null
+                ? schedule.getStartTime() + "-" + schedule.getEndTime() : "N/A");
 
         holder.slotTime.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -47,22 +50,26 @@ public class GetMentorDetailSlotsAdapter extends RecyclerView.Adapter<GetMentorD
                 Intent intent = new Intent(v.getContext(), MentorDetailBooking.class);
 
                 // Pass the mentor details to the activity
-                intent.putExtra("mentorStart", schedule.getStart());
-                intent.putExtra("mentorEnd", schedule.getEnd());
-                intent.putExtra("mentorStart", schedule.getStart());
-                intent.putExtra("mentorEnd", schedule.getEnd());
+                intent.putExtra("mentorId", mentorId);
+                intent.putExtra("mentorName", mentorName);
+                intent.putExtra("slotId", schedule.getId());
+                intent.putExtra("slotStart", schedule.getStartTime());
+                intent.putExtra("slotEnd", schedule.getEndTime());
+                intent.putExtra("slotDate", schedule.getDate());
+                intent.putExtra("slotType", schedule.getOnline() ? "Online" : "Offline");
+                intent.putExtra("slotNote", schedule.getNote());
 
                 // Start the activity
                 v.getContext().startActivity(intent);
             }
         });
 
-        if(schedule.getType() == 0) {
+        if(schedule.getOnline()) {
+            holder.slotType.setText("Online");
+        } else {
             holder.slotType.setText("Offline");
         }
-        if(schedule.getType() == 1) {
-            holder.slotType.setText("Online");
-        }
+
         if (schedule.getBooked()) {
             holder.slotStatusDot.setBackgroundColor(ContextCompat.getColor(holder.itemView.getContext(), R.color.booked_color));
             holder.slotStatusContent.setText("Booked");

@@ -26,6 +26,6 @@ public class ApiEndPoint {
 
 
 
-
-
+    //Feedback
+    public static final String CREATE_FEEDBACK = BASE_URL_COMMAND + "feedbacks";
 }

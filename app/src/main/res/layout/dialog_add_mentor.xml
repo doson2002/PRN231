@@ -29,7 +29,7 @@
         </LinearLayout>
 
         <EditText
-            android:id="@+id/editTextSearchMember"
+            android:id="@+id/editTextSearchMentor"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="@color/colorText"
@@ -40,7 +40,7 @@
             android:inputType="text" />
         <!-- Layout hiển thị thành viên đã chọn -->
         <LinearLayout
-            android:id="@+id/selectedMembersLayout"
+            android:id="@+id/selectedMentorLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
@@ -67,7 +67,7 @@
 
         <!-- CardView chứa danh sách thành viên -->
         <androidx.cardview.widget.CardView
-            android:id="@+id/cardViewMember"
+            android:id="@+id/cardViewMentor"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:cardCornerRadius="12dp"
@@ -77,7 +77,7 @@
 
             <!-- RecyclerView hiển thị danh sách thành viên -->
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerViewMembers"
+                android:id="@+id/recyclerViewMentor"
                 android:layout_width="match_parent"
                 android:layout_margin="10dp"
                 android:layout_height="wrap_content"

@@ -60,8 +60,6 @@ public class GroupFragment extends Fragment {
         String accessToken = sharedPreferences.getString("accessToken","");
         recyclerViewList = view.findViewById(R.id.recyclerViewList);
 
-
-
         // Set up RecyclerView
         recyclerViewList.setLayoutManager(new LinearLayoutManager(getContext()));
         groupList = new ArrayList<>();

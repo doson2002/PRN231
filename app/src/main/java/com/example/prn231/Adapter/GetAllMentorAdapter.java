@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.prn231.MentorDetail;
 import com.example.prn231.Model.Mentor;
 import com.example.prn231.R;
@@ -58,8 +59,14 @@ public class GetAllMentorAdapter extends RecyclerView.Adapter<GetAllMentorAdapte
             }
         });
 
-        // If you're loading an image dynamically, use libraries like Glide or Picasso
-        // Glide.with(context).load(mentor.getImageUrl()).into(holder.mentorImage);
+
+        //https://api.samplefaces.com/face?width=200
+
+        Glide.with(holder.itemView.getContext())
+                .load("https://randomuser.me/api/portraits/men/" + position + ".jpg") // or "women" for female portraits
+                .placeholder(R.drawable.ic_launcher_background)
+                .error(R.drawable.ic_launcher_background)
+                .into(holder.mentorImage);
 
         // Add skills to FlexboxLayout
         holder.mentorSkillsFlexbox.removeAllViews(); // Clear previous views to prevent duplication

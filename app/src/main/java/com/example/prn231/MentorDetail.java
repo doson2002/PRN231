@@ -97,10 +97,8 @@ public class MentorDetail extends AppCompatActivity {
 
         SharedPreferences sharedPreferences = getSharedPreferences("PRN231", MODE_PRIVATE);
         String accessToken = sharedPreferences.getString("accessToken","");
-        //String authToken = "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9lbWFpbGFkZHJlc3MiOiJzdHJpbmciLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiIwIiwiUm9sZSI6IjAiLCJVc2VySWQiOiIzNDFhODI3NC0wYWMyLTQxMmEtOTgyNC1lMzA3YThhMzEwZDAiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoic3RyaW5nIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9leHBpcmVkIjoiMTAvMTgvMjAyNCAwMzowNTozOCIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL25hbWVpZGVudGlmaWVyIjoiMzQxYTgyNzQtMGFjMi00MTJhLTk4MjQtZTMwN2E4YTMxMGQwIiwiZXhwIjoxNzI5MjI0MDM4LCJpc3MiOiJodHRwOi8vMTAzLjE2Mi4xNC4xMTY6ODA4MCIsImF1ZCI6Imh0dHA6Ly8xMDMuMTYyLjE0LjExNjo4MDgwIn0.Cf4X090k-UtHrh3d1-ieACpdus3JZ5HFEGmUNzoTvCY" ; // Replace with actual token
-
         String authToken = "Bearer " + accessToken;
-        Log.d("Token", authToken);
+
         mentorServices = MentorServices.getMentorApi();
         Call<ResponseSingelModel<com.example.prn231.Model.MentorDetail>> call = mentorServices.getMentorDetail(mentorId, authToken);
         call.enqueue(new Callback<ResponseSingelModel<com.example.prn231.Model.MentorDetail>>() {

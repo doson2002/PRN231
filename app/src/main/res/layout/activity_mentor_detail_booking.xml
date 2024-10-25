@@ -180,7 +180,10 @@
                         android:textColor="@color/black"
                         android:layout_marginLeft="10dp"
                         android:layout_marginRight="20dp"
-                        android:gravity="right"
+                        android:padding="2dp"
+                        android:paddingLeft="10dp"
+                        android:gravity="start"
+                        android:inputType="datetime"
                         android:background="@drawable/rectangle_border"/>
                 </LinearLayout>
 
@@ -206,7 +209,10 @@
                         android:textColor="@color/black"
                         android:layout_marginLeft="10dp"
                         android:layout_marginRight="20dp"
-                        android:gravity="right"
+                        android:padding="2dp"
+                        android:paddingLeft="10dp"
+                        android:gravity="start"
+                        android:inputType="datetime"
                         android:background="@drawable/rectangle_border"/>
                 </LinearLayout>
 
@@ -220,19 +226,19 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
-                        android:text="Book End: "
+                        android:text="Note: "
                         android:layout_weight="1"
                         android:textColor="@color/black" />
 
                     <EditText
                         android:id="@+id/etDescriptionSLot"
                         android:layout_width="255dp"
-                        android:layout_height="270dp"
+                        android:layout_height="200dp"
                         android:layout_marginTop="8dp"
                         android:textColor="@color/black"
                         android:layout_marginLeft="10dp"
                         android:layout_marginRight="20dp"
-                        android:gravity="right"
+                        android:gravity="start"
                         android:background="@drawable/rectangle_border"/>
                 </LinearLayout>
 
@@ -243,6 +249,7 @@
                     android:layout_marginBottom="40dp"/>
 
                 <Button
+                    android:id="@+id/bookingButton"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@color/orange"

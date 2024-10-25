@@ -1,7 +1,7 @@
 package com.example.prn231.Model;
 
 public class Schedule {
-    public String id;
+    public String slotId;
     public String startTime;
     public String endTime;
     public String date;
@@ -11,7 +11,7 @@ public class Schedule {
     public Boolean isBook;
 
     public Schedule(String id, String startTime, String endTime, String date, int month, String note, Boolean isOnline, Boolean isBooked) {
-        this.id = id;
+        this.slotId = id;
         this.startTime = startTime;
         this.endTime = endTime;
         this.date = date;
@@ -22,11 +22,11 @@ public class Schedule {
     }
 
     public String getId() {
-        return id;
+        return slotId;
     }
 
     public void setId(String id) {
-        this.id = id;
+        this.slotId = id;
     }
 
     public String getStartTime() {

@@ -1,0 +1,61 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:layout_marginBottom="10dp"
+    android:background="@drawable/skill_mentor_detail_border">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp">
+
+        <TextView
+            android:layout_width="8dp"
+            android:layout_height="8dp"
+            android:background="@drawable/circle_dot"
+            android:layout_marginEnd="8dp"/>
+
+        <TextView
+            android:id="@+id/tvMentorSLot"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="4"
+            android:text="09:00 - 12:00"
+            android:textColor="@color/black"/>
+
+        <TextView
+            android:id="@+id/tvMentorSLotType"
+            android:layout_width="10dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Online"
+            android:textColor="@color/black"
+            android:gravity="center"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="end"
+            android:layout_weight="1">
+            <TextView
+                android:id="@+id/tvMentorSLotStatusDot"
+                android:layout_width="6dp"
+                android:layout_height="6dp"
+                android:layout_marginHorizontal="8dp"
+                android:layout_gravity="center"
+                android:background="@drawable/circle_dot_error" />
+            <TextView
+                android:id="@+id/tvMentorSLotStatusText"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:text="Booked"
+                android:textColor="@color/black" />
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

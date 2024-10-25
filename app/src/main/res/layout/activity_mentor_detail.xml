@@ -16,29 +16,28 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            >
+            android:orientation="vertical">
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="70dp"
+                android:layout_marginBottom="10dp"
                 android:background="@color/orange"
                 android:elevation="10dp"
                 app:title=""
-                app:titleTextColor="@color/black"
-                android:layout_marginBottom="10dp">
+                app:titleTextColor="@color/black">
 
                 <!-- ImageView cho nút back -->
                 <ImageView
                     android:id="@+id/back_arrow"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:contentDescription="Back Arrow"
+                    android:layout_gravity="start"
                     android:layout_marginTop="10dp"
-                    android:src="@drawable/baseline_arrow_back_24"
+                    android:contentDescription="Back Arrow"
                     android:padding="16dp"
-                    android:layout_gravity="start" />
+                    android:src="@drawable/baseline_arrow_back_24" />
             </androidx.appcompat.widget.Toolbar>
 
             <LinearLayout
@@ -55,18 +54,18 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="24sp"
-                        android:textStyle="bold"
+                        android:text="Name: "
                         android:textColor="@color/black"
-                        android:text="Name: " />
+                        android:textSize="24sp"
+                        android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/tvMentorName"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:textColor="@color/black"
                         android:textSize="24sp"
-                        android:textStyle="bold"
-                        android:textColor="@color/black" />
+                        android:textStyle="bold" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -98,8 +97,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
-                        android:textColor="@color/black"
-                        android:text="Points: " />
+                        android:text="Points: "
+                        android:textColor="@color/black" />
 
                     <TextView
                         android:id="@+id/tvMentorPoints"
@@ -118,8 +117,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
-                        android:textColor="@color/black"
-                        android:text="Join Date: " />
+                        android:text="Join Date: "
+                        android:textColor="@color/black" />
 
                     <TextView
                         android:id="@+id/tvMentorDateJoin"
@@ -130,6 +129,7 @@
                 </LinearLayout>
 
                 <TextView
+                    android:id="@+id/tvMentorSkillsTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
@@ -144,8 +144,113 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp" />
 
-            </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginBottom="16dp">
 
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:text="Mentor Slots"
+                        android:textColor="@color/black"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="right"
+                        android:orientation="horizontal">
+
+
+                        <ImageButton
+                            android:id="@+id/backWeekButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:background="@color/white"
+                            android:src="@drawable/baseline_arrow_left_24" />
+
+                        <TextView
+                            android:id="@+id/dateNowDetailLeft"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="6dp"
+                            android:layout_marginRight="10dp"
+                            android:background="@drawable/rectangle_border"
+                            android:padding="6dp"
+                            android:text="20"
+                            android:textColor="@color/black" />
+
+                        <TextView
+                            android:id="@+id/dateNowDetail"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/rectangle_border"
+                            android:padding="6dp"
+                            android:paddingBottom="2dp"
+                            android:textSize="20dp"
+                            android:text="24"
+                            android:textColor="@color/black" />
+
+                        <TextView
+                            android:id="@+id/dateNowDetailRight"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="6dp"
+                            android:background="@drawable/rectangle_border"
+                            android:padding="6dp"
+                            android:text="26"
+                            android:textColor="@color/black" />
+
+                        <ImageButton
+                            android:id="@+id/nextWeekButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:background="@color/white"
+                            android:src="@drawable/baseline_arrow_right_24" />
+
+                    </LinearLayout>
+                </LinearLayout>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvSlots"
+                    android:layout_width="match_parent"
+                    android:layout_height="400dp"
+                    android:layout_marginTop="8dp" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="10dp">
+
+                    <ImageButton
+                        android:id="@+id/backDayButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:background="@color/white"
+                        android:layout_marginRight="10dp"
+                        android:src="@drawable/baseline_keyboard_double_arrow_left_24" />
+
+                    <ImageButton
+                        android:id="@+id/nextDayButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:background="@color/white"
+                        android:layout_marginLeft="10dp"
+                        android:src="@drawable/baseline_keyboard_double_arrow_right_24" />
+                </LinearLayout>
+            </LinearLayout>
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 

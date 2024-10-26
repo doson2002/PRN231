@@ -2,9 +2,11 @@ package com.example.prn231.Fragment.Student;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.core.view.OnApplyWindowInsetsListener;
 import androidx.core.view.ViewCompat;
@@ -19,6 +21,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.prn231.Adapter.ScheduleBookedAdapter;
 import com.example.prn231.Api.ApiEndPoint;
@@ -57,10 +60,10 @@ public class HistoryFragment extends Fragment {
             }
         });
         scheduleBookedList = new ArrayList<>();
-        adapter = new ScheduleBookedAdapter(scheduleBookedList);
+        adapter = new ScheduleBookedAdapter(scheduleBookedList, requireContext());
 
         // Call the API to fetch orders
-        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("PRN231", getActivity().MODE_PRIVATE);        String token = sharedPreferences.getString("JwtToken", null);
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("PRN231", getActivity().MODE_PRIVATE);
         String accessToken = sharedPreferences.getString("accessToken","");
 
         fetchScheduleFromApi(accessToken);
@@ -79,26 +82,31 @@ public class HistoryFragment extends Fragment {
 
     }
     private void fetchScheduleFromApi(String jwtToken) {
-        String url = ApiEndPoint.GET_SCHEDULE_BOOKED;  // Thay thế bằng URL API của bạn
+        String url = ApiEndPoint.GET_SCHEDULE_BOOKED;
 
         // Initialize a request queue
-        RequestQueue queue = Volley.newRequestQueue(getActivity());
+        RequestQueue queue = Volley.newRequestQueue(requireContext());
 
-        // Create a JsonArrayRequest
-        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(
+        // Create a JsonObjectRequest to handle the new structure
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
                 Request.Method.GET,
                 url,
                 null,
-                new Response.Listener<JSONArray>() {
-                    @Override
-                    public void onResponse(JSONArray response) {
-                        try {
+                response -> {
+                    try {
+                        // Kiểm tra nếu phản hồi thành công
+                        if (response.getBoolean("isSuccess")) {
+                            // Lấy mảng "value"
+                            JSONArray valueArray = response.getJSONArray("value");
+
                             // Loop through the array
-                            for (int i = 0; i < response.length(); i++) {
-                                JSONObject jsonObject = response.getJSONObject(i);
+                            for (int i = 0; i < valueArray.length(); i++) {
+                                JSONObject jsonObject = valueArray.getJSONObject(i);
 
                                 // Parse the JSON object
                                 ScheduleBooked scheduleBooked = new ScheduleBooked();
+                                scheduleBooked.setId(jsonObject.getString("id"));
+                                scheduleBooked.setGroupId(jsonObject.getString("groupId"));
                                 scheduleBooked.setDate(jsonObject.getString("date"));
                                 scheduleBooked.setGroupName(jsonObject.getString("groupName"));
                                 scheduleBooked.setStartTime(jsonObject.getString("startTime"));
@@ -111,20 +119,23 @@ public class HistoryFragment extends Fragment {
 
                             // Notify the adapter that data has changed
                             adapter.notifyDataSetChanged();
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
+                        } else {
+                            // Xử lý trường hợp không thành công
+                            String errorMessage = response.getJSONObject("error").getString("message");
+                            Log.e("API Error", errorMessage);
+                            Toast.makeText(getActivity(), "Lỗi: " + errorMessage, Toast.LENGTH_SHORT).show();
                         }
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
                 },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        // Handle error
-                        error.printStackTrace();
-                    }
+                error -> {
+                    // Handle error
+                    error.printStackTrace();
+                    Toast.makeText(getActivity(), "Lỗi khi gọi API", Toast.LENGTH_SHORT).show();
                 }
-        ){
+        ) {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String, String> headers = new HashMap<>();
@@ -137,8 +148,9 @@ public class HistoryFragment extends Fragment {
         };
 
         // Add the request to the RequestQueue
-        queue.add(jsonArrayRequest);
+        queue.add(jsonObjectRequest);
     }
+
 
 
 

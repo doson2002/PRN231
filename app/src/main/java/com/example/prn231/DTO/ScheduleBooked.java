@@ -1,6 +1,8 @@
 package com.example.prn231.DTO;
 
 public class ScheduleBooked {
+    private String id;
+    private String groupId;
     private String date;
     private String startTime;
     private String endTime;
@@ -10,12 +12,29 @@ public class ScheduleBooked {
     public ScheduleBooked() {
     }
 
-    public ScheduleBooked(String date, String startTime, String endTime, String groupName, boolean isFeedBack) {
+    public ScheduleBooked(String id,String date, String startTime, String endTime, String groupName, boolean isFeedBack) {
+        this.id = id;
         this.date = date;
         this.startTime = startTime;
         this.endTime = endTime;
         this.groupName = groupName;
         this.isFeedBack = isFeedBack;
+    }
+
+    public String getGroupId() {
+        return groupId;
+    }
+
+    public void setGroupId(String groupId) {
+        this.groupId = groupId;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getDate() {

@@ -1,7 +1,13 @@
 package com.example.prn231.Adapter;
 
+import static android.content.Context.MODE_PRIVATE;
+
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,22 +16,36 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+import com.example.prn231.Api.ApiEndPoint;
 import com.example.prn231.DTO.Member;
 import com.example.prn231.DTO.ScheduleBooked;
 import com.example.prn231.R;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ScheduleBookedAdapter extends RecyclerView.Adapter<ScheduleBookedAdapter.MyViewHolder> {
 
     private List<ScheduleBooked> scheduleBookedList;
+    private Context context;
 
-    public ScheduleBookedAdapter(List<ScheduleBooked> scheduleBookedList) {
+    public ScheduleBookedAdapter(List<ScheduleBooked> scheduleBookedList, Context context) {
         this.scheduleBookedList = scheduleBookedList;
+        this.context = context;
     }
 
     @NonNull
@@ -51,9 +71,10 @@ public class ScheduleBookedAdapter extends RecyclerView.Adapter<ScheduleBookedAd
         holder.tvAddFeedback.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showFeedbackDialog(holder.itemView.getContext());
+                showFeedbackDialog(holder.itemView.getContext(),scheduleBooked);
             }
         });
+
     }
     // Cập nhật danh sách members
     public void updateScheduleList(ScheduleBooked scheduleBooked) {
@@ -79,11 +100,11 @@ public class ScheduleBookedAdapter extends RecyclerView.Adapter<ScheduleBookedAd
 
         }
     }
-    private void showFeedbackDialog(Context context) {
+    private void showFeedbackDialog(Context context, ScheduleBooked scheduleBooked) {
         // Tạo Dialog
         Dialog dialog = new Dialog(context);
         dialog.setContentView(R.layout.dialog_feedback); // Sử dụng layout mà bạn đã cung cấp
-
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         // Tìm các view bên trong dialog
         EditText editTextFeedback = dialog.findViewById(R.id.editTextProjectName);
         RatingBar ratingBar = dialog.findViewById(R.id.ratingBarInput);
@@ -111,7 +132,10 @@ public class ScheduleBookedAdapter extends RecyclerView.Adapter<ScheduleBookedAd
             @Override
             public void onClick(View v) {
                 String feedback = editTextFeedback.getText().toString();
-                float rating = ratingBar.getRating();
+                int rating = (int) ratingBar.getRating();
+                String scheduleId = scheduleBooked.getId();
+                String groupId = scheduleBooked.getGroupId();
+                sendFeedback(feedback,rating,scheduleId,groupId);
 
                 // Thực hiện hành động sau khi người dùng nhập feedback và đánh giá
                 // Ví dụ: gửi feedback lên server hoặc cập nhật giao diện
@@ -122,5 +146,45 @@ public class ScheduleBookedAdapter extends RecyclerView.Adapter<ScheduleBookedAd
 
         // Hiển thị dialog
         dialog.show();
+    }
+    // Hàm gửi feedback lên server
+    private void sendFeedback(String feedback, float rating, String scheduleId,String  groupId) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences("PRN231", MODE_PRIVATE);
+        String accessToken = sharedPreferences.getString("accessToken","");
+        JSONObject requestBody = new JSONObject();
+        try {
+            requestBody.put("groupId", groupId);
+            requestBody.put("content", feedback);
+            requestBody.put("scheduleId", scheduleId);
+            requestBody.put("rating", rating);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        String url = ApiEndPoint.CREATE_FEEDBACK;
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
+                Request.Method.POST, url, requestBody,
+                response -> {
+                    Toast.makeText(context, "Gửi feedback thành công!", Toast.LENGTH_SHORT).show();
+                },
+                error -> {
+                    Toast.makeText(context, "Lỗi khi gửi feedback!", Toast.LENGTH_SHORT).show();
+                    error.printStackTrace();
+                }
+        ){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<>();
+                if (accessToken != null) {
+                    headers.put("Authorization", "Bearer " + accessToken);
+                }
+                headers.put("Content-Type", "application/json");
+                return headers;
+            }
+        };
+
+        RequestQueue requestQueue = Volley.newRequestQueue(context);
+        requestQueue.add(jsonObjectRequest);
     }
 }

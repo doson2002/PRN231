@@ -127,8 +127,8 @@ public class GroupDetailActivity extends AppCompatActivity {
             // Create a new dialog
             Dialog dialog = new Dialog(this);
             dialog.setContentView(R.layout.dialog_add_project);
-            dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             dialog.setCancelable(false);
+            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
             // Get references to the views in the dialog
             EditText editTextProjectName = dialog.findViewById(R.id.editTextProjectName);

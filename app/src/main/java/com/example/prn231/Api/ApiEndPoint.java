@@ -23,6 +23,10 @@ public class ApiEndPoint {
     //project
     public static final String CREATE_PROJECT = BASE_URL_COMMAND + "projects";
 
+    //schedule
+    public static final String GET_SCHEDULE_BOOKED = BASE_URL_QUERY + "schedules";
+
+
 
 
 

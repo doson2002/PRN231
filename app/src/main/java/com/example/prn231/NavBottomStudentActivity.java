@@ -12,6 +12,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.example.prn231.Fragment.Student.AccountFragment;
 import com.example.prn231.Fragment.Student.GroupFragment;
+import com.example.prn231.Fragment.Student.HistoryFragment;
 import com.example.prn231.Fragment.Student.HomeStudentFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -38,6 +39,9 @@ public class NavBottomStudentActivity extends AppCompatActivity {
                         break;
                     case R.id.addGroup:
                         replaceFragment(new GroupFragment());
+                        break;
+                    case R.id.historyBooked:
+                        replaceFragment(new HistoryFragment());
                         break;
                     case R.id.account:
                         replaceFragment(new AccountFragment());

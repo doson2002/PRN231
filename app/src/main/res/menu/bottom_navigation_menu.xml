@@ -8,6 +8,10 @@
         android:icon="@drawable/baseline_groups_3_24"
         android:title="Group" />
     <item
+        android:id="@+id/historyBooked"
+        android:icon="@drawable/baseline_history_24"
+        android:title="History" />
+    <item
         android:id="@+id/account"
         android:icon="@drawable/baseline_manage_accounts_24"
         android:title="Account" />

@@ -38,6 +38,14 @@
           }
         },
         {
+          "client_id": "618429951554-mrngammclf43feagu858ad7toajop3ek.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.prn231",
+            "certificate_hash": "5adaab9b1c3a61020764284184906499d4f98f46"
+          }
+        },
+        {
           "client_id": "618429951554-mthhoddmm2k7quvmq8pd177dlvit7307.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {

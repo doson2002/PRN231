@@ -6,8 +6,7 @@
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:openDrawer="start"
-    android:fitsSystemWindows="true">
+    tools:openDrawer="start">
 
     <!-- Main content layout (ConstraintLayout) -->
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -96,6 +95,7 @@
 
             <!-- Meeting Schedule -->
             <LinearLayout
+                android:id="@+id/btn_meeting_schedule"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
@@ -103,7 +103,6 @@
                 android:orientation="vertical">
 
                 <ImageView
-                    android:id="@+id/btn_meeting_schedule"
                     android:layout_width="match_parent"
                     android:layout_height="100dp"
                     android:background="@drawable/rounded_button_background"
@@ -120,7 +119,7 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/searchMentor"
+                android:id="@+id/add_schedule"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
@@ -130,7 +129,7 @@
                 android:layout_gravity="center_horizontal">
 
                 <ImageView
-                    android:id="@+id/btn_search_mentor"
+                    android:id="@+id/btn_schedule"
                     android:layout_width="match_parent"
                     android:layout_height="100dp"
                     android:background="@drawable/rounded_button_background"
@@ -141,7 +140,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Searching kakakk"
+                    android:text="Add schedule"
                     android:textColor="@color/orange"
                     android:textSize="16sp"
                     android:layout_gravity="center_horizontal" />
@@ -156,7 +155,6 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        android:fitsSystemWindows="true"
         app:headerLayout="@layout/nav_header"
         />
 

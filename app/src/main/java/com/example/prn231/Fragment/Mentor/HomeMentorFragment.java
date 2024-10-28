@@ -34,6 +34,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.prn231.Api.ApiEndPoint;
 import com.example.prn231.LoginActivity;
+import com.example.prn231.MentorMeetingSchedule;
 import com.example.prn231.MentorPage;
 import com.example.prn231.R;
 import com.google.android.material.navigation.NavigationView;
@@ -46,6 +47,14 @@ import java.util.Map;
 
 public class HomeMentorFragment extends Fragment {
     private NavigationView navigationView;
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        return inflater.inflate(R.layout.fragment_home_mentor, container, false);
+    }
+
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -56,7 +65,7 @@ public class HomeMentorFragment extends Fragment {
         // Find views
         DrawerLayout drawerLayout = view.findViewById(R.id.drawer_layout);
         Toolbar toolbar = view.findViewById(R.id.toolbar);
-        NavigationView navigationView = view.findViewById(R.id.navigation_view);
+        navigationView = view.findViewById(R.id.navigation_view);
 
         // Setup Toolbar
         AppCompatActivity activity = (AppCompatActivity) getActivity();
@@ -87,6 +96,17 @@ public class HomeMentorFragment extends Fragment {
             drawerLayout.closeDrawer(GravityCompat.START);
         });
 
+        // Set up the click listener for the ImageView
+        LinearLayout searchMentorButton = view.findViewById(R.id.btn_meeting_schedule);
+        searchMentorButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Handle the click action here
+                Toast.makeText(getContext(), "Button clicked!", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(getActivity(), MentorMeetingSchedule.class);
+                startActivity(intent);
+            }
+        });
     }
 
     private void callApiGetUserById(String userId, String accessToken) {

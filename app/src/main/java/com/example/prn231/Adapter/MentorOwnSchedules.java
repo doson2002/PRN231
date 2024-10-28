@@ -1,98 +1,72 @@
 package com.example.prn231.Adapter;
 
+import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.prn231.MentorDetail;
 import com.example.prn231.MentorDetailBooking;
-import com.example.prn231.Model.Schedule;
+import com.example.prn231.MentorEditSchedules;
+import com.example.prn231.Model.Slot; // Import the Slot model
 import com.example.prn231.R;
 
 import java.util.List;
 
-public class MentorOwnSchedules extends RecyclerView.Adapter<MentorOwnSchedules.ItemViewHolder>{
-    private List<Schedule> scheduleList;
-    private String mentorId;
+public class MentorOwnSchedules extends RecyclerView.Adapter<MentorOwnSchedules.ItemViewHolder> {
+    private List<Slot> slotList; // Change type to Slot
+    private Context context;
 
-    public MentorOwnSchedules(List<Schedule> scheduleList, String mentorId) {
-        this.scheduleList = scheduleList;
-        this.mentorId = mentorId;
+    public MentorOwnSchedules(Context context, List<Slot> slotList) {
+        this.context = context;
+        this.slotList = slotList;
     }
 
     @NonNull
     @Override
     public ItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        // Inflate the skill item layout
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_schedule_mentor_details, parent, false);
-
-        return new MentorOwnSchedules.ItemViewHolder(view);
+                .inflate(R.layout.item_schedule_mentor_without_book, parent, false);
+        return new ItemViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ItemViewHolder holder, int position) {
-        Schedule schedule = scheduleList.get(position);
-        holder.slotTime.setText(schedule.getStartTime() != null && schedule.getEndTime() != null
-                ? schedule.getStartTime() + "-" + schedule.getEndTime() : "N/A");
+        Slot slot = slotList.get(position);
+        holder.slotTime.setText(slot.getStartTime() + " - " + slot.getEndTime());
+        holder.slotType.setText(slot.isOnline() ? "Online" : "Offline");
+        holder.slotDate.setText(slot.getDate());
 
-        holder.slotTime.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Create an Intent to start the MentorDetailActivity
-                Intent intent = new Intent(v.getContext(), MentorDetailBooking.class);
-
-                // Pass the mentor details to the activity
-                intent.putExtra("mentorId", mentorId);
-                intent.putExtra("slotId", schedule.getId());
-                intent.putExtra("slotStart", schedule.getStartTime());
-                intent.putExtra("slotEnd", schedule.getEndTime());
-                intent.putExtra("slotDate", schedule.getDate());
-                intent.putExtra("slotType", schedule.getOnline() ? "Online" : "Offline");
-                intent.putExtra("slotNote", schedule.getNote());
-
-                // Start the activity
-                v.getContext().startActivity(intent);
-            }
+        holder.itemView.setOnClickListener(v -> {
+            Intent intent = new Intent(context, MentorEditSchedules.class);
+            intent.putExtra("slotId", slot.getId());
+            intent.putExtra("slotStart", slot.getStartTime());
+            intent.putExtra("slotEnd", slot.getEndTime());
+            intent.putExtra("slotDate", slot.getDate());
+            intent.putExtra("slotType", slot.isOnline() ? "Online" : "Offline");
+            intent.putExtra("slotNote", slot.getNote());
+            context.startActivity(intent);
         });
-
-        if(schedule.getOnline()) {
-            holder.slotType.setText("Online");
-        } else {
-            holder.slotType.setText("Offline");
-        }
-
-        if (schedule.getBooked()) {
-            holder.slotStatusDot.setBackgroundColor(ContextCompat.getColor(holder.itemView.getContext(), R.color.booked_color));
-            holder.slotStatusContent.setText("Booked");
-        } else {
-            holder.slotStatusDot.setBackgroundColor(ContextCompat.getColor(holder.itemView.getContext(), R.color.idle_color));
-            holder.slotStatusContent.setText("Idle");
-        }
     }
 
     @Override
     public int getItemCount() {
-        return scheduleList != null ? scheduleList.size() : 0;
+        return slotList.size();
     }
 
     public static class ItemViewHolder extends RecyclerView.ViewHolder {
-        // Declare the view components as per the new layout
-        TextView slotTime, slotType, slotStatusDot, slotStatusContent;
+        TextView slotTime;
+        TextView slotType;
+        TextView slotDate; // New reference for the date
 
         public ItemViewHolder(@NonNull View itemView) {
             super(itemView);
-
-            // Find views by their IDs as per the new layout
-            slotTime = itemView.findViewById(R.id.tvMentorSLot);
-            slotType = itemView.findViewById(R.id.tvMentorSLotType);
-            slotStatusDot = itemView.findViewById(R.id.tvMentorSLotStatusDot);
-            slotStatusContent = itemView.findViewById(R.id.tvMentorSLotStatusText);
+            slotTime = itemView.findViewById(R.id.tvMentorSlot);
+            slotType = itemView.findViewById(R.id.tvMentorSlotType); // Ensure this is defined
+            slotDate = itemView.findViewById(R.id.tvSlotDate); // Initialize the new TextView
         }
     }
 }

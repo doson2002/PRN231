@@ -32,4 +32,7 @@ public class ApiEndPoint {
 
     //Feedback
     public static final String CREATE_FEEDBACK = BASE_URL_COMMAND + "feedbacks";
+
+    //Slots
+    public static final String GET_ALL_SLOTS = BASE_URL_QUERY + "slots";
 }

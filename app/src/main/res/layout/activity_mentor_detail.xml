@@ -250,6 +250,8 @@
                         android:layout_marginLeft="10dp"
                         android:src="@drawable/baseline_keyboard_double_arrow_right_24" />
                 </LinearLayout>
+
+
             </LinearLayout>
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>

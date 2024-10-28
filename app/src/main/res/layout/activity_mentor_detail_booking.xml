@@ -165,6 +165,64 @@
                     android:layout_marginBottom="20dp">
 
                     <TextView
+                        android:id="@+id/spinGroupText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="Group: "
+                        android:layout_weight="1"
+                        android:textColor="@color/black" />
+
+                    <Spinner
+                        android:id="@+id/spinnerGroupSelection"
+                        android:layout_height="wrap_content"
+                        android:layout_width="255dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="20dp"
+                        android:padding="2dp"
+                        android:paddingLeft="10dp"
+                        android:gravity="start"
+                        android:background="@drawable/spinner_background"
+                        android:popupBackground="#FFFFFF"
+                        />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="370dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="20dp">
+
+                    <TextView
+                        android:id="@+id/spinSubText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="Subject: "
+                        android:layout_weight="1"
+                        android:textColor="@color/black" />
+
+                    <Spinner
+                        android:id="@+id/spinnerSubSelection"
+                        android:layout_height="wrap_content"
+                        android:layout_width="255dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="20dp"
+                        android:padding="2dp"
+                        android:paddingLeft="10dp"
+                        android:gravity="start"
+                        android:background="@drawable/spinner_background"
+                        android:popupBackground="#FFFFFF"
+                        />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="370dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="20dp">
+
+                    <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"

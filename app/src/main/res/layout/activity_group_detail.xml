@@ -1,11 +1,22 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
+    tools:context=".GroupDetailActivity"
     android:background="@color/white">
+
+
+<androidx.core.widget.NestedScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
 
     <!-- Search bar at the top -->
     <LinearLayout
@@ -195,7 +206,6 @@
                     android:padding="4dp"/>
             </LinearLayout>
 
-            <!-- RecyclerView để hiển thị danh sách thành viên -->
             <TextView
                 android:id="@+id/tvMentor"
                 android:layout_width="match_parent"
@@ -205,6 +215,125 @@
                 android:textColor="@color/black"
                 android:text="Hai Do - nguyenhai@gmail.com"
                 android:scrollbars="vertical"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/black"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"/>
+
+            <LinearLayout
+                android:id="@+id/mentorSlotHeader"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:text="Mentor Slots"
+                    android:textColor="@color/black"
+                    android:textSize="18dp"
+                    android:textStyle="normal" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="right"
+                    android:orientation="horizontal">
+
+                    <ImageButton
+                        android:id="@+id/backWeekButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:background="@color/white"
+                        android:src="@drawable/baseline_arrow_left_24" />
+
+                    <TextView
+                        android:id="@+id/dateNowDetailLeft"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="6dp"
+                        android:layout_marginRight="10dp"
+                        android:background="@drawable/rectangle_border"
+                        android:padding="6dp"
+                        android:text="20"
+                        android:textColor="@color/black" />
+
+                    <TextView
+                        android:id="@+id/dateNowDetail"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/rectangle_border"
+                        android:padding="6dp"
+                        android:paddingBottom="2dp"
+                        android:textSize="20dp"
+                        android:text="24"
+                        android:textColor="@color/black" />
+
+                    <TextView
+                        android:id="@+id/dateNowDetailRight"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="6dp"
+                        android:background="@drawable/rectangle_border"
+                        android:padding="6dp"
+                        android:text="26"
+                        android:textColor="@color/black" />
+
+                    <ImageButton
+                        android:id="@+id/nextWeekButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:background="@color/white"
+                        android:src="@drawable/baseline_arrow_right_24" />
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvSlots"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:layout_marginTop="8dp" />
+
+            <LinearLayout
+                android:id="@+id/mentorBottom"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp">
+
+                <ImageButton
+                    android:id="@+id/backDayButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:background="@color/white"
+                    android:layout_marginRight="10dp"
+                    android:src="@drawable/baseline_keyboard_double_arrow_left_24" />
+
+                <ImageButton
+                    android:id="@+id/nextDayButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:background="@color/white"
+                    android:layout_marginLeft="10dp"
+                    android:src="@drawable/baseline_keyboard_double_arrow_right_24" />
+            </LinearLayout>
+
+            <!-- RecyclerView để hiển thị danh sách thành viên -->
         </LinearLayout>
     </androidx.cardview.widget.CardView>
     <androidx.cardview.widget.CardView
@@ -294,3 +423,5 @@
     </LinearLayout>
 
 </LinearLayout>
+</androidx.core.widget.NestedScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -263,7 +263,7 @@ public class MentorDetail extends AppCompatActivity {
                         runOnUiThread(() -> {
                             LinearLayoutManager layoutManager = new LinearLayoutManager(MentorDetail.this);
                             recyclerViewsSchedules.setLayoutManager(layoutManager);
-                            scheduleAdapter = new GetMentorDetailSlotsAdapter(slotList, mentorId, mentorName);
+                            scheduleAdapter = new GetMentorDetailSlotsAdapter(slotList, mentorId, mentorName, "mentor", "");
                             recyclerViewsSchedules.setAdapter(scheduleAdapter);
                             // If the adapter is already set, you may just need to update the data and notify the adapter
                             scheduleAdapter.notifyDataSetChanged();

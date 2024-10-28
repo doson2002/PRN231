@@ -48,7 +48,6 @@ public class AccountFragment  extends Fragment {
     }
     private void callApiGetUserById(String userId, String accessToken) {
         String url = ApiEndPoint.GET_USER_BY_ID +"/"+ userId;  // URL của API
-
         // Tạo một request mới
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
                 Request.Method.GET, // GET method
@@ -63,12 +62,9 @@ public class AccountFragment  extends Fragment {
                             if (isSuccess) {
                                 // Lấy object value từ response
                                 JSONObject value = response.getJSONObject("value");
-
                                 // Lấy tên và email của người dùng
                                 String fullName = value.getString("fullName");
                                 String email = value.getString("email");
-                                int points = value.getInt("points");
-
                                 // Cập nhật UI: Tên, Email và Điểm
                                 tvUserName.setText(fullName);
                                 tvEmail.setText(email);

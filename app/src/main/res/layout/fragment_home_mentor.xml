@@ -28,10 +28,10 @@
 
         <!-- Notification Section -->
         <TextView
-            android:id="@+id/tv_notification_title"
+            android:id="@+id/tvBooking"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Notification"
+            android:text="Booking History"
             android:textColor="@color/blue"
             android:textSize="20sp"
             android:textStyle="bold"
@@ -41,11 +41,11 @@
             app:layout_constraintEnd_toEndOf="parent" />
 
         <LinearLayout
-            android:id="@+id/notification_layout"
+            android:id="@+id/history_layout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintTop_toBottomOf="@id/tv_notification_title"
+            app:layout_constraintTop_toBottomOf="@id/tvBooking"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:background="@drawable/rounded_button_background_with_shadow"
@@ -56,7 +56,7 @@
                 android:id="@+id/btn_notification"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
-                android:src="@drawable/baseline_notification_add_24"
+                android:src="@drawable/baseline_manage_history_24"
                 android:scaleType="fitCenter"
                 android:layout_gravity="center_horizontal" />
 
@@ -78,7 +78,7 @@
             android:textColor="@color/blue"
             android:textSize="20sp"
             android:textStyle="bold"
-            app:layout_constraintTop_toBottomOf="@id/notification_layout"
+            app:layout_constraintTop_toBottomOf="@id/history_layout"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginTop="20dp" />

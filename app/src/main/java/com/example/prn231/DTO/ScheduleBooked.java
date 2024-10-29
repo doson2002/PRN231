@@ -8,17 +8,27 @@ public class ScheduleBooked {
     private String endTime;
     private String groupName;
     private boolean isFeedBack;
+    private int isAccepted;
 
     public ScheduleBooked() {
     }
 
-    public ScheduleBooked(String id,String date, String startTime, String endTime, String groupName, boolean isFeedBack) {
+    public ScheduleBooked(String id,String date, String startTime, String endTime, String groupName, boolean isFeedBack, int isAccepted) {
         this.id = id;
         this.date = date;
         this.startTime = startTime;
         this.endTime = endTime;
         this.groupName = groupName;
         this.isFeedBack = isFeedBack;
+        this.isAccepted = isAccepted;
+    }
+
+    public int getIsAccepted() {
+        return isAccepted;
+    }
+
+    public void setIsAccepted(int isAccepted) {
+        this.isAccepted = isAccepted;
     }
 
     public String getGroupId() {

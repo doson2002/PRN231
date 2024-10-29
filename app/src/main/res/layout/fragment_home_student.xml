@@ -140,14 +140,14 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Searching mentor"
+                    android:layout_gravity="center_horizontal"
+                    android:text="Add Schedule"
                     android:textColor="@color/orange"
-                    android:textSize="16sp"
-                    android:layout_gravity="center_horizontal" />
+                    android:textSize="16sp" />
             </LinearLayout>
         </LinearLayout>
-    </androidx.constraintlayout.widget.ConstraintLayout>
 
+    </androidx.constraintlayout.widget.ConstraintLayout>
     <!-- Navigation View for the side menu -->
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/navigation_view"
@@ -157,5 +157,6 @@
         app:headerLayout="@layout/nav_header"
         android:fitsSystemWindows="true"
         />
+    <!-- Navigation View for the side menu -->
 
 </androidx.drawerlayout.widget.DrawerLayout>

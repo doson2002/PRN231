@@ -179,12 +179,11 @@ public class HomeMentorFragment extends Fragment {
         // Lấy các TextView trong header
         TextView userNameTextView = headerView.findViewById(R.id.user_name);
         TextView userEmailTextView = headerView.findViewById(R.id.user_email);
-        TextView userPointTextView = headerView.findViewById(R.id.user_point);
 
         // Cập nhật thông tin
         userNameTextView.setText(fullName);
         userEmailTextView.setText(email);
-        userPointTextView.setText("Point: " +points);
+
     }
     private void performLogout() {
         // Clear session data (this could be shared preferences, token, etc.)

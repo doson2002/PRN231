@@ -52,4 +52,5 @@ dependencies {
     implementation(libs.play.services.auth)
     implementation(libs.volley) // để call api
     implementation(libs.firebase.auth)
+    implementation(libs.imagepicker)
 }

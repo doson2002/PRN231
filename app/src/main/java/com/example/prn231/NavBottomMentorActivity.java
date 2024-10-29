@@ -11,6 +11,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.example.prn231.Fragment.Mentor.HomeMentorFragment;
+import com.example.prn231.Fragment.Mentor.SkillFragment;
 import com.example.prn231.Fragment.Student.AccountFragment;
 import com.example.prn231.Fragment.Student.GroupFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -36,8 +37,8 @@ public class NavBottomMentorActivity extends AppCompatActivity {
                     case R.id.home:
                         replaceFragment(new HomeMentorFragment());
                         break;
-                    case R.id.addGroup:
-                        replaceFragment(new GroupFragment());
+                    case R.id.addSkill:
+                        replaceFragment(new SkillFragment());
                         break;
                     case R.id.account:
                         replaceFragment(new AccountFragment());

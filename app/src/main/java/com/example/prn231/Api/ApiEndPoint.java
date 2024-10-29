@@ -32,4 +32,12 @@ public class ApiEndPoint {
 
     //Feedback
     public static final String CREATE_FEEDBACK = BASE_URL_COMMAND + "feedbacks";
+    //Skill for mentor
+    public static final String GET_MENTOR_DETAIL = BASE_URL_QUERY + "mentors";
+    public static final String GET_ALL_SKILL = BASE_URL_QUERY + "skills";
+    public static final String CREATE_MENTOR_SKILL = BASE_URL_COMMAND + "mentorSkills";
+
+
+
+
 }

@@ -10,8 +10,8 @@ public class MentorSlotRequestBody {
     @SerializedName("subjectId")
     private String subjectId;
 
-    @SerializedName("projectId")
-    private String projectId;
+    @SerializedName("groupId")
+    private String groupId;
 
     @SerializedName("startTime")
     private String startTime;
@@ -19,20 +19,20 @@ public class MentorSlotRequestBody {
     @SerializedName("endTime")
     private String endTime;
 
-    public MentorSlotRequestBody(String slotId, String subjectId, String projectId, String startTime, String endTime) {
+    public MentorSlotRequestBody(String slotId, String subjectId, String groupId, String startTime, String endTime) {
         this.slotId = slotId;
         this.subjectId = subjectId;
-        this.projectId = projectId;
+        this.groupId = groupId;
         this.startTime = startTime;
         this.endTime = endTime;
     }
 
-    public String getProjectId() {
-        return projectId;
+    public String getGroupId() {
+        return groupId;
     }
 
-    public void setProjectId(String projectId) {
-        this.projectId = projectId;
+    public void setGroupId(String groupId) {
+        this.groupId = groupId;
     }
 
     // Getters and setters (optional if using Gson/Retrofit to serialize/deserialize)

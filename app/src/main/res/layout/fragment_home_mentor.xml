@@ -119,7 +119,7 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/searchMentor"
+                android:id="@+id/add_schedule"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"

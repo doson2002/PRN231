@@ -19,12 +19,16 @@ import java.util.List;
 public class GetMentorDetailSlotsAdapter extends RecyclerView.Adapter<GetMentorDetailSlotsAdapter.ItemViewHolder>{
     private List<Schedule> scheduleList;
     private String mentorId;
+    private String groupId;
     private String mentorName;
+    private String from;
 
-    public GetMentorDetailSlotsAdapter(List<Schedule> scheduleList, String mentorId, String mentorName) {
+    public GetMentorDetailSlotsAdapter(List<Schedule> scheduleList, String mentorId, String mentorName, String from, String groupId) {
         this.scheduleList = scheduleList;
         this.mentorId = mentorId;
         this.mentorName = mentorName;
+        this.from = from;
+        this.groupId = groupId;
     }
 
     @NonNull
@@ -58,6 +62,8 @@ public class GetMentorDetailSlotsAdapter extends RecyclerView.Adapter<GetMentorD
                 intent.putExtra("slotDate", schedule.getDate());
                 intent.putExtra("slotType", schedule.getOnline() ? "Online" : "Offline");
                 intent.putExtra("slotNote", schedule.getNote());
+                intent.putExtra("from", from);
+                intent.putExtra("groupId", groupId);
 
                 // Start the activity
                 v.getContext().startActivity(intent);

@@ -1,4 +1,5 @@
 package com.example.prn231;
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -6,12 +7,14 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -28,21 +31,35 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.prn231.Adapter.GetMentorDetailSkillAdapter;
+import com.example.prn231.Adapter.GetMentorDetailSlotsAdapter;
 import com.example.prn231.Adapter.MemberAdapter;
 import com.example.prn231.Adapter.MemberSearchAdapter;
 import com.example.prn231.Adapter.ProjectSearchAdapter;
 import com.example.prn231.Api.ApiEndPoint;
+import com.example.prn231.Api.SlotApi;
 import com.example.prn231.DTO.Member;
 import com.example.prn231.DTO.Project;
+import com.example.prn231.Model.ResponseSingelModel;
+import com.example.prn231.Model.Schedule;
+import com.example.prn231.Services.MentorServices;
+import com.example.prn231.Services.MentorSlotServices;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
+import java.util.TimeZone;
+
+import retrofit2.Call;
+import retrofit2.Callback;
 
 public class GroupDetailActivity extends AppCompatActivity {
 
@@ -65,6 +82,20 @@ public class GroupDetailActivity extends AppCompatActivity {
     private Dialog dialog;
 
 
+
+    private String mentorIdPublic;
+    private String mentorNamePublic;
+    private String groupIdPublic;
+    Calendar currentCalendar;
+    String now;
+    SlotApi mentorSlotServices;
+    RecyclerView recyclerViewsSchedules;
+    GetMentorDetailSlotsAdapter scheduleAdapter;
+    TextView dateNowSchedule, dateNowScheduleLeft, dateNowScheduleRight;
+    ImageButton backDayButton, nextDayButton, nextWeekButton, backWeekButton;
+    LinearLayout mentorHeader, mentorBottom;
+
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -98,6 +129,7 @@ public class GroupDetailActivity extends AppCompatActivity {
 
         // Lấy groupId từ Intent
         String groupId = getIntent().getStringExtra("groupId");
+        groupIdPublic = groupId;
 
         // Gọi API để lấy chi tiết nhóm
         loadGroupDetail(groupId, accessToken);
@@ -206,7 +238,176 @@ public class GroupDetailActivity extends AppCompatActivity {
             // Show the dialog
             dialog.show();
         });
+
+        //Mentor Schedule
+        currentCalendar = Calendar.getInstance(TimeZone.getTimeZone("Asia/Ho_Chi_Minh"));
+        dateNowSchedule = findViewById(R.id.dateNowDetail);
+        dateNowScheduleLeft = findViewById(R.id.dateNowDetailLeft);
+        dateNowScheduleRight = findViewById(R.id.dateNowDetailRight);
+        recyclerViewsSchedules = findViewById(R.id.rvSlots);
+        nextWeekButton = findViewById(R.id.nextWeekButton);
+        backWeekButton = findViewById(R.id.backWeekButton);
+
+        nextDayButton = findViewById(R.id.nextDayButton);
+        backDayButton = findViewById(R.id.backDayButton);
+        mentorHeader = findViewById(R.id.mentorSlotHeader);
+        mentorBottom = findViewById(R.id.mentorBottom);
+
+//        if(mentorIdPublic == null){
+//            recyclerViewsSchedules.setVisibility(View.GONE);
+//            mentorHeader.setVisibility(View.GONE);
+//            mentorBottom.setVisibility(View.GONE);
+//        } else {
+//            recyclerViewsSchedules.setVisibility(View.VISIBLE);
+//            mentorHeader.setVisibility(View.VISIBLE);
+//            mentorBottom.setVisibility(View.VISIBLE);
+//        }
+
+        String authToken = "Bearer " + accessToken;
+
+        // Format the current date for display
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
+        formatter.setTimeZone(TimeZone.getTimeZone("Asia/Ho_Chi_Minh"));
+        now = formatter.format(currentCalendar.getTime());
+        updateDateRanges();
+        updateList(authToken, mentorIdPublic, now, mentorNamePublic);
+
+        nextWeekButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                advanceWeek(true);
+                updateList(authToken, mentorIdPublic, now, mentorNamePublic);
+            }
+        });
+
+        nextDayButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                advanceDay(true);
+                updateList(authToken, mentorIdPublic, now, mentorNamePublic);
+            }
+        });
+
+        backWeekButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                advanceWeek(false);
+                updateList(authToken, mentorIdPublic, now, mentorNamePublic);
+            }
+        });
+
+        backDayButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                advanceDay(false);
+                updateList(authToken, mentorIdPublic, now, mentorNamePublic);
+            }
+        });
+
     }
+
+    private void advanceWeek(boolean isPlus) {
+        // Add 7 days to the current date
+        if(isPlus){
+            currentCalendar.add(Calendar.DAY_OF_MONTH, 7);
+        } else {
+            currentCalendar.add(Calendar.DAY_OF_MONTH, -7);
+        }
+
+        // Update the UI with new date ranges
+        updateDateRanges();
+    }
+
+    private void advanceDay(boolean isPlus) {
+        // Add 7 days to the current date
+        if(isPlus){
+            currentCalendar.add(Calendar.DAY_OF_MONTH, 1);
+        } else {
+            currentCalendar.add(Calendar.DAY_OF_MONTH, -1);
+        }
+
+        // Update the UI with new date ranges
+        updateDateRanges();
+    }
+
+    private void updateDateRanges() {
+        // Clone the current calendar to avoid modifying the original instance
+        Calendar tempCal = (Calendar) currentCalendar.clone();
+
+        // Get the current day of the week (1 = Sunday, 7 = Saturday)
+        int dayOfWeek = tempCal.get(Calendar.DAY_OF_WEEK);
+
+        // Adjust dayOfWeek so that Monday = 1 and Sunday = 7
+        int adjustedDayOfWeek = (dayOfWeek == Calendar.SUNDAY) ? 7 : dayOfWeek - 1;
+
+        // Find the Monday of the current week
+        tempCal.add(Calendar.DAY_OF_MONTH, -(adjustedDayOfWeek - 1));
+        int weekStart = tempCal.get(Calendar.DAY_OF_MONTH);
+
+        // Reset tempCal to today and find the Sunday of the current week
+        tempCal = (Calendar) currentCalendar.clone(); // Reset calendar
+        tempCal.add(Calendar.DAY_OF_MONTH, 7 - adjustedDayOfWeek);
+        int weekEnd = tempCal.get(Calendar.DAY_OF_MONTH);
+
+        // Handle month boundary cases for weekEnd
+        String weekEndSuffix = "";
+        if (weekEnd < tempCal.get(Calendar.DAY_OF_MONTH)) {
+            // If week end exceeds the current month, adjust the month for the next month
+            tempCal.add(Calendar.MONTH, 1); // Move to the next month
+            tempCal.set(Calendar.DAY_OF_MONTH, 1); // Set to the first day of the next month
+            SimpleDateFormat monthFormat = new SimpleDateFormat("MMM", Locale.ENGLISH);
+            weekEndSuffix = " (" + monthFormat.format(tempCal.getTime()) + ")";
+        }
+
+        // Get the current day of the month
+        int dayOfMonth = currentCalendar.get(Calendar.DAY_OF_MONTH);
+
+        // Update the 'now' string with the full date format
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
+        formatter.setTimeZone(TimeZone.getTimeZone("Asia/Ho_Chi_Minh"));
+        now = formatter.format(currentCalendar.getTime());  // Update now with full date
+
+        // Update TextViews
+        dateNowSchedule.setText(Integer.toString(dayOfMonth)); // Current day of the month
+        dateNowScheduleLeft.setText(Integer.toString(weekStart)); // Start of the week (Monday)
+        dateNowScheduleRight.setText(Integer.toString(weekEnd) + weekEndSuffix); // End of the week (Sunday)
+    }
+
+    private void updateList(String authToken, String mentorId, String now, String mentorName){
+        Log.d("Time", now);
+        mentorSlotServices = MentorSlotServices.getMentorSlotApi();
+        Call<ResponseSingelModel<List<com.example.prn231.Model.Schedule>>> schedultCall = mentorSlotServices.getAllMentorSlot(authToken, mentorId, now);
+        schedultCall.enqueue(new Callback<ResponseSingelModel<List<com.example.prn231.Model.Schedule>>>() {
+            @Override
+            public void onResponse(Call<ResponseSingelModel<List<com.example.prn231.Model.Schedule>>> schedultCall, retrofit2.Response<ResponseSingelModel<List<Schedule>>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    List<com.example.prn231.Model.Schedule> slotList = response.body().getValue();
+
+                    if (slotList != null) {
+                        runOnUiThread(() -> {
+                            LinearLayoutManager layoutManager = new LinearLayoutManager(GroupDetailActivity.this);
+                            recyclerViewsSchedules.setLayoutManager(layoutManager);
+                            scheduleAdapter = new GetMentorDetailSlotsAdapter(slotList, mentorId, mentorName, "group", groupIdPublic);
+                            recyclerViewsSchedules.setAdapter(scheduleAdapter);
+                            // If the adapter is already set, you may just need to update the data and notify the adapter
+                            scheduleAdapter.notifyDataSetChanged();
+                        });
+                    }
+                } else {
+                    runOnUiThread(() -> {
+                        Toast.makeText(GroupDetailActivity.this, "", Toast.LENGTH_SHORT).show();
+                    });
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseSingelModel<List<com.example.prn231.Model.Schedule>>> call, Throwable t) {
+                // Handle failure
+                t.printStackTrace();
+            }
+        });
+    }
+
     private void loadGroupDetail(String groupId, String accessToken) {
         String url = ApiEndPoint.GET_GROUP_DETAIL + "/" + groupId;  // URL của API lấy chi tiết nhóm
 
@@ -221,9 +422,14 @@ public class GroupDetailActivity extends AppCompatActivity {
                             if (response.getBoolean("isSuccess")) {
                                 JSONObject groupObject = response.getJSONObject("value");
                                 String mentorName = groupObject.getString("mentorName");
+                                String mentorId = groupObject.getString("mentorId");
                                 String projectName = groupObject.getString("projectName");
                                 String mentorEmail = groupObject.getString("mentorEmail");
                                 String projectDescription = groupObject.getString("projectDescription");
+
+                                Log.d("123", mentorId);
+                                mentorIdPublic = mentorId;
+                                mentorNamePublic = mentorName;
 
                                 // Hiển thị thông tin nhóm
                                 groupName.setText(groupObject.getString("name"));

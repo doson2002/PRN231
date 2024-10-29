@@ -34,6 +34,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.prn231.Api.ApiEndPoint;
 import com.example.prn231.LoginActivity;
+import com.example.prn231.MentorAddSchedule;
 import com.example.prn231.MentorMeetingSchedule;
 import com.example.prn231.MentorPage;
 import com.example.prn231.R;
@@ -104,6 +105,15 @@ public class HomeMentorFragment extends Fragment {
                 // Handle the click action here
                 Toast.makeText(getContext(), "Button clicked!", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(getActivity(), MentorMeetingSchedule.class);
+                startActivity(intent);
+            }
+        });
+
+        LinearLayout addScheduleButton = view.findViewById(R.id.add_schedule);
+        addScheduleButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), MentorAddSchedule.class);
                 startActivity(intent);
             }
         });

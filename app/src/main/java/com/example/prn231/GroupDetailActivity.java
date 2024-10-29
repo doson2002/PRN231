@@ -768,14 +768,14 @@ public class GroupDetailActivity extends AppCompatActivity {
                             if (errorMessage.equals("Member already joined group")) {
                                 Toast.makeText(GroupDetailActivity.this, "Thành viên đã tham gia nhóm trước đó!", Toast.LENGTH_SHORT).show();
                             } else {
-                                Toast.makeText(GroupDetailActivity.this, "Lỗi: " + errorMessage, Toast.LENGTH_SHORT).show();
+                                Toast.makeText(GroupDetailActivity.this, "Error: " + errorMessage, Toast.LENGTH_SHORT).show();
                             }
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
                     } else {
                         // Các lỗi khác
-                        Toast.makeText(GroupDetailActivity.this, "Lỗi khi thêm thành viên!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(GroupDetailActivity.this, "Error while adding member", Toast.LENGTH_SHORT).show();
                     }
                 }
             }

@@ -4,9 +4,9 @@
         android:icon="@drawable/baseline_home_filled_24"
         android:title="Home" />
     <item
-        android:id="@+id/addGroup"
-        android:icon="@drawable/baseline_groups_3_24"
-        android:title="Group" />
+        android:id="@+id/addSkill"
+        android:icon="@drawable/baseline_add_task_24"
+        android:title="Skill" />
     <item
         android:id="@+id/account"
         android:icon="@drawable/baseline_manage_accounts_24"

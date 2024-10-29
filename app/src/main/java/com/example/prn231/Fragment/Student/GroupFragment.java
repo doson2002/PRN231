@@ -169,6 +169,7 @@ public class GroupFragment extends Fragment {
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
+                            groupList.clear();
                             // Kiểm tra nếu yêu cầu thành công
                             if (response.getBoolean("isSuccess")) {
                                 // Lấy mảng "value" từ đối tượng JSON

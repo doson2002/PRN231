@@ -415,11 +415,7 @@
             android:layout_marginTop="4dp"
             android:layout_alignParentStart="true"
             android:contentDescription="Search Icon" />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/black"
-            android:text="Click here to see booking history" />
+
     </LinearLayout>
 
 </LinearLayout>

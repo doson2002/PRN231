@@ -38,6 +38,7 @@ import com.example.prn231.MentorAddSchedule;
 import com.example.prn231.MentorMeetingSchedule;
 import com.example.prn231.MentorPage;
 import com.example.prn231.R;
+import com.example.prn231.ScheduleBookedForMentorActivity;
 import com.google.android.material.navigation.NavigationView;
 
 import org.json.JSONException;
@@ -48,6 +49,7 @@ import java.util.Map;
 
 public class HomeMentorFragment extends Fragment {
     private NavigationView navigationView;
+    private LinearLayout history_layout;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -114,6 +116,14 @@ public class HomeMentorFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getActivity(), MentorAddSchedule.class);
+                startActivity(intent);
+            }
+        });
+        history_layout = view.findViewById(R.id.history_layout);
+        history_layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), ScheduleBookedForMentorActivity.class);
                 startActivity(intent);
             }
         });

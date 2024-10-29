@@ -70,7 +70,7 @@ public class ScheduleBookedForMentorActivity extends AppCompatActivity {
         fetchSchedulesFromApi(accessToken);
     }
     private void fetchSchedulesFromApi(String accessToken) {
-        String url = ApiEndPoint.GET_SCHEDULE_BOOKED_FOR_MENTOR; // Thay URL của bạn tại đây
+        String url = ApiEndPoint.GET_SCHEDULE_BOOKED_FOR_MENTOR;
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null,
                 response -> {

@@ -50,4 +50,7 @@ public class ApiEndPoint {
     //Slots
     public static final String GET_ALL_SLOTS = BASE_URL_QUERY + "slots";
 
+
+    //login user name password
+    public static final String LOGIN_EMAIL_PASSWORD = BASE_URL_LOGIN + "auth/login";
 }

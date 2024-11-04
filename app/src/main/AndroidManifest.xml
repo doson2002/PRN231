@@ -18,6 +18,9 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".LoginEmailPasswordActivity"
+            android:exported="false" />
+        <activity
             android:name=".ScheduleBookedForMentorActivity"
             android:exported="false" />
         <activity

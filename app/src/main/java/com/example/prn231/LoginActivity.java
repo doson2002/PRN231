@@ -52,6 +52,7 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         final Button loginButton = findViewById(R.id.loginButton);
+        final Button navigateButton = findViewById(R.id.loginEmailPasswordButton);
 
         // Cấu hình Google Sign-In để lấy mã thông báo ID
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -81,6 +82,11 @@ public class LoginActivity extends AppCompatActivity {
         loginButton.setOnClickListener(view -> {
             Intent signInIntent = mGoogleSignInClient.getSignInIntent();
             activityResultLauncher.launch(signInIntent);
+        });
+
+        navigateButton.setOnClickListener(view -> {
+                Intent intent = new Intent(getApplicationContext(), LoginEmailPasswordActivity.class);
+                startActivity(intent);
         });
     }
 

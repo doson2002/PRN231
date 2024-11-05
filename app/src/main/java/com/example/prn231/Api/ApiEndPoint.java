@@ -25,6 +25,10 @@ public class ApiEndPoint {
 
     //schedule
     public static final String GET_SCHEDULE_BOOKED = BASE_URL_QUERY + "schedules";
+    public static final String GET_SCHEDULE_BOOKED_FOR_MENTOR = BASE_URL_QUERY + "schedules/mentor";
+
+    public static final String CHANGE_STATUS_SCHEDULE = BASE_URL_COMMAND + "schedules/change-stats";
+
 
 
 

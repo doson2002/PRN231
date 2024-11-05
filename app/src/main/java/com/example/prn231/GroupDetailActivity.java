@@ -580,6 +580,8 @@ public class GroupDetailActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // Thực hiện hành động thêm thành viên ở đây
+                buttonConfirm.setEnabled(false);
+                buttonConfirm.setText("Adding");
                 callApiAddMemberToGroup(groupId,accessToken);
 
             }

@@ -90,18 +90,18 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    private void handleSignInTask(Task<GoogleSignInAccount> task) {
-        try {
-            GoogleSignInAccount account = task.getResult(ApiException.class);
-            String idToken = account.getIdToken(); // Lấy ID token
-            sendTokenToBackend(idToken); // Gửi ID token đến backend
+        private void handleSignInTask(Task<GoogleSignInAccount> task) {
+            try {
+                GoogleSignInAccount account = task.getResult(ApiException.class);
+                String idToken = account.getIdToken(); // Lấy ID token
+                sendTokenToBackend(idToken); // Gửi ID token đến backend
 
-        } catch (ApiException e) {
-            e.printStackTrace();
-            Toast.makeText(this, "Login failed with error code: " + e.getStatusCode() +
-                    "\nMessage: " + e.getMessage(), Toast.LENGTH_LONG).show();
+            } catch (ApiException e) {
+                e.printStackTrace();
+                Toast.makeText(this, "Login failed with error code: " + e.getStatusCode() +
+                        "\nMessage: " + e.getMessage(), Toast.LENGTH_LONG).show();
+            }
         }
-    }
 
     private void sendTokenToBackend(String idToken) {
         // URL của backend nơi bạn xử lý xác thực

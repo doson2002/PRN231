@@ -2,7 +2,7 @@
   "project_info": {
     "project_number": "618429951554",
     "project_id": "prn231-32144",
-    "storage_bucket": "prn231-32144.appspot.com"
+    "storage_bucket": "prn231-32144.firebasestorage.app"
   },
   "client": [
     {
@@ -59,6 +59,14 @@
           "android_info": {
             "package_name": "com.example.prn231",
             "certificate_hash": "08dd34eba9c6bcb4ba449df5f195c61355754426"
+          }
+        },
+        {
+          "client_id": "618429951554-qlh24hvkpnhq68rnkrqlf5cpk7ss25op.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.prn231",
+            "certificate_hash": "cef59e764a7d3a7c073c15dbcbb8adf607dff45a"
           }
         },
         {

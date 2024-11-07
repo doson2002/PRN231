@@ -186,6 +186,7 @@ public class GroupFragment extends Fragment {
                                     String leaderName = groupObj.getString("leaderName");
                                     String projectName = groupObj.optString("projectName", "Has No Project Yet");
 
+
                                     // Tạo object Group và thêm vào danh sách
                                     Group group = new Group(groupId, name, mentorName, leaderName, projectName, new ArrayList<Member>());
                                     groupList.add(group);

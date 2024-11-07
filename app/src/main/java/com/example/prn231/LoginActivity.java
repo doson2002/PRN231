@@ -80,8 +80,10 @@ public class LoginActivity extends AppCompatActivity {
 
         // Xử lý sự kiện click cho nút đăng nhập
         loginButton.setOnClickListener(view -> {
-            Intent signInIntent = mGoogleSignInClient.getSignInIntent();
-            activityResultLauncher.launch(signInIntent);
+            mGoogleSignInClient.signOut().addOnCompleteListener(task -> {
+                Intent signInIntent = mGoogleSignInClient.getSignInIntent();
+                activityResultLauncher.launch(signInIntent);
+            });
         });
 
         navigateButton.setOnClickListener(view -> {

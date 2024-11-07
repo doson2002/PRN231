@@ -91,7 +91,7 @@ public class GroupDetailActivity extends AppCompatActivity {
     SlotApi mentorSlotServices;
     RecyclerView recyclerViewsSchedules;
     GetMentorDetailSlotsAdapter scheduleAdapter;
-    TextView dateNowSchedule, dateNowScheduleLeft, dateNowScheduleRight;
+    TextView dateNowSchedule, dateNowScheduleLeft, dateNowScheduleRight, dayNow;
     ImageButton backDayButton, nextDayButton, nextWeekButton, backWeekButton;
     LinearLayout mentorHeader, mentorBottom;
 
@@ -141,6 +141,7 @@ public class GroupDetailActivity extends AppCompatActivity {
             public void onClick(View view) {
                 // Khi người dùng nhấn vào TextView, hiển thị dialog thêm thành viên
                 showAddMentorDialog(accessToken, groupId);
+
             }
         });
         textViewProject = findViewById(R.id.textViewProject);
@@ -246,6 +247,7 @@ public class GroupDetailActivity extends AppCompatActivity {
         dateNowSchedule = findViewById(R.id.dateNowDetail);
         dateNowScheduleLeft = findViewById(R.id.dateNowDetailLeft);
         dateNowScheduleRight = findViewById(R.id.dateNowDetailRight);
+        dayNow = findViewById(R.id.dayDetail);
         recyclerViewsSchedules = findViewById(R.id.rvSlots);
         nextWeekButton = findViewById(R.id.nextWeekButton);
         backWeekButton = findViewById(R.id.backWeekButton);
@@ -373,6 +375,7 @@ public class GroupDetailActivity extends AppCompatActivity {
         dateNowSchedule.setText(Integer.toString(dayOfMonth)); // Current day of the month
         dateNowScheduleLeft.setText(Integer.toString(weekStart)); // Start of the week (Monday)
         dateNowScheduleRight.setText(Integer.toString(weekEnd) + weekEndSuffix); // End of the week (Sunday)
+        dayNow.setText(now);
     }
 
     private void updateList(String authToken, String mentorId, String now, String mentorName){
@@ -834,7 +837,8 @@ public class GroupDetailActivity extends AppCompatActivity {
                         // Cập nhật danh sách thành viên trong adapter và đóng dialog
                         tvMentor.setVisibility(View.VISIBLE);
                         tvMentor.setText(selectedMentor.getFullName() +"-" +selectedMentor.getEmail());
-                        dialog.dismiss(); // Đóng dialog sau khi thêm thành viên thành công
+                        dialog.dismiss(); // Đóng dialog sau khi thêm thành viên thành công\
+                        textViewAddMentor.setVisibility(View.GONE);
                     }
                 },
                 new Response.ErrorListener() {

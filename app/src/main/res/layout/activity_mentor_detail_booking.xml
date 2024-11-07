@@ -352,6 +352,7 @@
                         android:layout_marginLeft="10dp"
                         android:layout_marginRight="20dp"
                         android:gravity="start"
+                        android:padding="3dp"
                         android:background="@drawable/rectangle_border"/>
                 </LinearLayout>
 

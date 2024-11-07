@@ -66,14 +66,14 @@ public class ScheduleBookedAdapter extends RecyclerView.Adapter<ScheduleBookedAd
             holder.tvFeedBackStatus.setText("Đã feedback");
         }else {
             holder.tvFeedBackStatus.setText("Chưa feedback");
-            holder.tvAddFeedback.setVisibility(View.VISIBLE);
+
         }
-        holder.tvAddFeedback.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                showFeedbackDialog(holder.itemView.getContext(),scheduleBooked);
-            }
-        });
+//        holder.tvAddFeedback.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                showFeedbackDialog(holder.itemView.getContext(),scheduleBooked);
+//            }
+//        });
 
     }
     // Cập nhật danh sách members
@@ -96,7 +96,7 @@ public class ScheduleBookedAdapter extends RecyclerView.Adapter<ScheduleBookedAd
             tvFeedBackStatus = itemView.findViewById(R.id.tvFeedBackStatus);
             tvGroupName = itemView.findViewById(R.id.tvGroupName);
             tvDate = itemView.findViewById(R.id.tvDate);
-            tvAddFeedback = itemView.findViewById(R.id.tvAddFeedback);
+//            tvAddFeedback = itemView.findViewById(R.id.tvAddFeedback);
 
         }
     }

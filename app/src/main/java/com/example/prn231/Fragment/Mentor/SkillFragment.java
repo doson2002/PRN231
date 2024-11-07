@@ -8,10 +8,15 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.DocumentsContract;
+import android.provider.MediaStore;
+import android.provider.OpenableColumns;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,8 +54,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -168,7 +176,7 @@ public class SkillFragment extends Fragment {
 
         return view;
     }
-    public void uploadSkillWithRetrofit(String skillId, List<Uri> selectedImagesUris,String accessToken) {
+    public void uploadSkillWithRetrofit(String skillId, List<Uri> selectedImagesUris, String accessToken) {
         // Khởi tạo Retrofit
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(ApiEndPoint.BASE_URL_COMMAND) // Thay "YOUR_BASE_URL" bằng URL của server
@@ -183,10 +191,16 @@ public class SkillFragment extends Fragment {
         // Chuyển danh sách hình ảnh thành List<MultipartBody.Part>
         List<MultipartBody.Part> imageParts = new ArrayList<>();
         for (Uri uri : selectedImagesUris) {
-            File file = new File(uri.getPath());
-            RequestBody requestFile = RequestBody.create(MediaType.parse("image/*"), file);
-            MultipartBody.Part imagePart = MultipartBody.Part.createFormData("productImages[]", file.getName(), requestFile);
-            imageParts.add(imagePart);
+            InputStream inputStream = getInputStreamFromUri(uri);
+
+            if (inputStream != null) {
+                // Tạo RequestBody từ InputStream
+                RequestBody requestFile = RequestBody.create(MediaType.parse("image/*"), inputStreamToByteArray(inputStream));
+                MultipartBody.Part imagePart = MultipartBody.Part.createFormData("productImages[]", getFileName(uri), requestFile);
+                imageParts.add(imagePart);
+            } else {
+                Log.e("Upload", "Failed to get InputStream from URI: " + uri);
+            }
         }
 
         // Tạo yêu cầu upload
@@ -196,7 +210,7 @@ public class SkillFragment extends Fragment {
             public void onResponse(Call<ResponseBody> call, retrofit2.Response<ResponseBody> response) {
                 if (response.isSuccessful()) {
                     Toast.makeText(requireContext(), "Skill created successfully!", Toast.LENGTH_SHORT).show();
-                    loadSkillDataFromAPI(accessToken,mentorId);
+                    loadSkillDataFromAPI(accessToken, mentorId);
                 } else {
                     Toast.makeText(requireContext(), "Upload failed: " + response.message(), Toast.LENGTH_SHORT).show();
                 }
@@ -207,6 +221,43 @@ public class SkillFragment extends Fragment {
                 Toast.makeText(requireContext(), "Failed to create skill: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
+    }
+    private InputStream getInputStreamFromUri(Uri uri) {
+        try {
+            return requireContext().getContentResolver().openInputStream(uri);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    // Hàm để chuyển InputStream thành mảng byte
+    private byte[] inputStreamToByteArray(InputStream inputStream) {
+        try (ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream()) {
+            int nRead;
+            byte[] buffer = new byte[16384];  // Buffer với kích thước hợp lý
+            while ((nRead = inputStream.read(buffer, 0, buffer.length)) != -1) {
+                byteArrayOutputStream.write(buffer, 0, nRead);
+            }
+            return byteArrayOutputStream.toByteArray();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return new byte[0];  // Trả về mảng byte rỗng nếu có lỗi
+        }
+    }
+
+    // Hàm lấy tên file từ URI
+    private String getFileName(Uri uri) {
+        String fileName = null;
+        if (uri != null) {
+            Cursor cursor = requireContext().getContentResolver().query(uri, null, null, null, null);
+            if (cursor != null && cursor.moveToFirst()) {
+                int columnIndex = cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME);
+                fileName = cursor.getString(columnIndex);
+                cursor.close();
+            }
+        }
+        return fileName != null ? fileName : "default_image_name.jpg";  // Trả về tên mặc định nếu không lấy được
     }
 
 
@@ -258,6 +309,7 @@ public class SkillFragment extends Fragment {
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
+                            skillList.clear();
                             // Kiểm tra nếu yêu cầu thành công
                             if (response.getBoolean("isSuccess")) {
                                 // Lấy object "value" từ response
@@ -315,7 +367,7 @@ public class SkillFragment extends Fragment {
         };
 
         jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(
-                5000,
+                10000,
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 

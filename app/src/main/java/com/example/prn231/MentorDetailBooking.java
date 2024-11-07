@@ -53,7 +53,7 @@ public class MentorDetailBooking extends AppCompatActivity {
     GroupApi groupServices;
     SubjectApi subServices;
     TextView tvmentorName, tvmentorSlot, tvslotType, tvslotNote, tvMentorDate, startSLotError, endSLotError;
-    EditText edStart, edEnd;
+    EditText edStart, edEnd, etDescriptionSLot;
     Button btnBooking;
     Spinner spinner;
     private String groupIdChoice;
@@ -83,6 +83,7 @@ public class MentorDetailBooking extends AppCompatActivity {
         spinnerSub = findViewById(R.id.spinnerSubSelection);
         startSLotError = findViewById(R.id.etStartSLotError);
         endSLotError = findViewById(R.id.etEndSLotError);
+        etDescriptionSLot = findViewById(R.id.etDescriptionSLot);
 
         groupServices = GroupServices.getGroupApi();
         subServices = SubjectServices.SubjectServices();
@@ -97,6 +98,10 @@ public class MentorDetailBooking extends AppCompatActivity {
         String slotNote = getIntent().getStringExtra("slotNote");
         String from = getIntent().getStringExtra("from");
         String groupId = getIntent().getStringExtra("groupId");
+
+        edStart.setText(slotStart);
+        edEnd.setText(slotEnd);
+        etDescriptionSLot.setText(slotNote);
 
         Log.d("slotId", slotId);
 

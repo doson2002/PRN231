@@ -267,63 +267,82 @@
                             android:textColor="@color/black"
                             android:textSize="18dp"
                             android:textStyle="normal" />
-
                         <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:gravity="right"
-                            android:orientation="horizontal">
+                            android:orientation="vertical">
 
-                            <ImageButton
-                                android:id="@+id/backWeekButton"
+                            <LinearLayout
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:background="@color/white"
-                                android:src="@drawable/baseline_arrow_left_24" />
+                                android:gravity="right"
+                                android:orientation="horizontal">
+
+                                <ImageButton
+                                    android:id="@+id/backWeekButton"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:background="@color/white"
+                                    android:src="@drawable/baseline_arrow_left_24" />
+
+                                <TextView
+                                    android:id="@+id/dateNowDetailLeft"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="6dp"
+                                    android:layout_marginRight="10dp"
+                                    android:background="@drawable/rectangle_border"
+                                    android:padding="6dp"
+                                    android:text="20"
+                                    android:textColor="@color/black" />
+
+                                <TextView
+                                    android:id="@+id/dateNowDetail"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:background="@drawable/rectangle_border"
+                                    android:padding="6dp"
+                                    android:paddingBottom="2dp"
+                                    android:text="24"
+                                    android:textColor="@color/black"
+                                    android:textSize="20dp" />
+
+                                <TextView
+                                    android:id="@+id/dateNowDetailRight"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="10dp"
+                                    android:layout_marginRight="6dp"
+                                    android:background="@drawable/rectangle_border"
+                                    android:padding="6dp"
+                                    android:text="26"
+                                    android:textColor="@color/black" />
+
+                                <ImageButton
+                                    android:id="@+id/nextWeekButton"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:background="@color/white"
+                                    android:src="@drawable/baseline_arrow_right_24" />
+
+                            </LinearLayout>
+
 
                             <TextView
-                                android:id="@+id/dateNowDetailLeft"
+                                android:id="@+id/dayDetail"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginLeft="6dp"
-                                android:layout_marginRight="10dp"
-                                android:background="@drawable/rectangle_border"
-                                android:padding="6dp"
-                                android:text="20"
-                                android:textColor="@color/black" />
-
-                            <TextView
-                                android:id="@+id/dateNowDetail"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:background="@drawable/rectangle_border"
                                 android:padding="6dp"
                                 android:paddingBottom="2dp"
+                                android:layout_gravity="center"
                                 android:text="24"
                                 android:textColor="@color/black"
-                                android:textSize="20dp" />
-
-                            <TextView
-                                android:id="@+id/dateNowDetailRight"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginLeft="10dp"
-                                android:layout_marginRight="6dp"
-                                android:background="@drawable/rectangle_border"
-                                android:padding="6dp"
-                                android:text="26"
-                                android:textColor="@color/black" />
-
-                            <ImageButton
-                                android:id="@+id/nextWeekButton"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:background="@color/white"
-                                android:src="@drawable/baseline_arrow_right_24" />
+                                android:textSize="15dp" />
 
                         </LinearLayout>
+
 
 
                     </LinearLayout>

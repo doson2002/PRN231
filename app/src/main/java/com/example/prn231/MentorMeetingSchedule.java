@@ -64,9 +64,8 @@ public class MentorMeetingSchedule extends AppCompatActivity {
         // Set up back navigation
         ImageView backArrow = findViewById(R.id.back_arrow);
         backArrow.setOnClickListener(v -> {
-            Intent intent = new Intent(getApplicationContext(), HomeMentorFragment.class);
+            Intent intent = new Intent(getApplicationContext(), NavBottomMentorActivity.class);
             startActivity(intent);
-            finish();
         });
 
         // Get authentication token

@@ -85,7 +85,7 @@ public class MentorAddSchedule extends AppCompatActivity {
         backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), HomeMentorFragment.class);
+                Intent intent = new Intent(getApplicationContext(), NavBottomMentorActivity.class);
                 startActivity(intent);
             }
         });

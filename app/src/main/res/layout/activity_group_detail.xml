@@ -4,420 +4,452 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".GroupDetailActivity"
-    android:background="@color/white">
+    android:background="@color/white"
+    tools:context=".GroupDetailActivity">
 
 
-<androidx.core.widget.NestedScrollView
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/white">
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
-
-
-    <!-- Search bar at the top -->
-    <LinearLayout
-        android:id="@+id/search_bar"
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="16dp"
-        android:background="#E0E0E0"
-        android:layout_alignParentTop="true">
-
-        <!-- Back Button -->
-        <ImageView
-            android:id="@+id/back_button"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:src="@drawable/baseline_arrow_back_24"
-            android:contentDescription="Back"
-            android:layout_gravity="center_vertical"/>
-
-        <!-- Search field -->
-        <TextView
-            android:id="@+id/deliver_to"
-            android:layout_width="0dp"
-            android:layout_height="40dp"
-            android:layout_weight="1"
-            android:text="Group Detail"
-            android:textStyle="bold"
-            android:textSize="20dp"
-            android:textColor="@color/black"
-            android:background="#E0E0E0"
-            android:gravity="center"/>
-    </LinearLayout>
-    <!-- Tên nhóm -->
-
-
-        <!-- Booking ID -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:paddingHorizontal="16dp"
-            android:background="@color/white"
-            android:layout_marginTop="8dp">
-
-            <TextView
-                android:id="@+id/tvBookingLabel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Group name: "
-                android:textSize="20sp"
-                android:textColor="@color/black"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/groupName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:textColor="@color/black"
-                android:text="A-6SW8LNTWWI58"
-                android:textSize="18sp" />
-        </LinearLayout>
-
-
-    <!-- Booking ID -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingHorizontal="16dp"
-        android:background="@color/white"
-        android:layout_marginTop="8dp">
-
-        <TextView
-            android:id="@+id/tvDescription"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Group description: "
-            android:textSize="20sp"
-            android:textColor="@color/black"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/groupDescription"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:textColor="@color/black"
-            android:text="A-6SW8LNTWWI58"
-            android:textSize="18sp" />
-    </LinearLayout>
-
-
-    <!-- card_members.xml -->
-    <androidx.cardview.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="8dp"
-        app:cardElevation="4dp"
-        app:cardCornerRadius="8dp">
+        android:layout_height="match_parent"
+        android:background="@color/white">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:background="@color/white"
-            android:padding="16dp">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-            <!-- Tiêu đề cho danh sách thành viên -->
+
+            <!-- Search bar at the top -->
             <LinearLayout
+                android:id="@+id/search_bar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:background="#E0E0E0"
                 android:orientation="horizontal"
-                android:layout_marginTop="5dp">
+                android:padding="16dp">
 
+                <!-- Back Button -->
+                <ImageView
+                    android:id="@+id/back_button"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center_vertical"
+                    android:contentDescription="Back"
+                    android:src="@drawable/baseline_arrow_back_24" />
+
+                <!-- Search field -->
                 <TextView
-                    android:id="@+id/textViewMember"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Members: "
-                    android:textSize="18sp"
-                    android:textStyle="bold"
-                    android:textColor="@android:color/black"/>
-
-                <TextView
-                    android:id="@+id/textViewAddMember"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Add member"
-                    android:textColor="@color/light_orange"
-                    android:textSize="14sp"
-                    android:padding="4dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-
-                  />
-            </LinearLayout>
-
-            <!-- RecyclerView để hiển thị danh sách thành viên -->
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerViewMembers"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:scrollbars="vertical"/>
-        </LinearLayout>
-    </androidx.cardview.widget.CardView>
-    <!-- card mentor.xml -->
-    <androidx.cardview.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="8dp"
-        app:cardElevation="4dp"
-        app:cardCornerRadius="8dp">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:background="@color/white"
-            android:padding="16dp">
-
-            <!-- Tiêu đề cho danh sách thành viên -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="5dp">
-
-                <TextView
-                    android:id="@+id/textViewMentor"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Mentor: "
-                    android:textSize="18sp"
-                    android:textStyle="bold"
-                    android:textColor="@android:color/black"/>
-
-                <TextView
-                    android:id="@+id/textViewAddMentor"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Add mentor"
-                    android:textColor="@color/light_orange"
-                    android:visibility="gone"
-                    android:textSize="14sp"
-                    android:padding="4dp"/>
-            </LinearLayout>
-
-            <TextView
-                android:id="@+id/tvMentor"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:visibility="gone"
-                android:textColor="@color/black"
-                android:text="Hai Do - nguyenhai@gmail.com"
-                android:scrollbars="vertical"/>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/black"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"/>
-
-            <LinearLayout
-                android:id="@+id/mentorSlotHeader"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="16dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
+                    android:id="@+id/deliver_to"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
                     android:layout_weight="1"
-                    android:text="Mentor Slots"
+                    android:background="#E0E0E0"
+                    android:gravity="center"
+                    android:text="Group Detail"
                     android:textColor="@color/black"
-                    android:textSize="18dp"
-                    android:textStyle="normal" />
+                    android:textSize="20dp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+            <!-- Tên nhóm -->
+
+
+            <!-- Booking ID -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:background="@color/white"
+                android:orientation="horizontal"
+                android:paddingHorizontal="16dp">
+
+                <TextView
+                    android:id="@+id/tvBookingLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Group name: "
+                    android:textColor="@color/black"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/groupName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:text="A-6SW8LNTWWI58"
+                    android:textColor="@color/black"
+                    android:textSize="18sp" />
+            </LinearLayout>
+
+
+            <!-- Booking ID -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:background="@color/white"
+                android:orientation="horizontal"
+                android:paddingHorizontal="16dp">
+
+                <TextView
+                    android:id="@+id/tvDescription"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Group description: "
+                    android:textColor="@color/black"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/groupDescription"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:text="A-6SW8LNTWWI58"
+                    android:textColor="@color/black"
+                    android:textSize="18sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:background="@color/white"
+                android:orientation="horizontal"
+                android:paddingHorizontal="16dp">
+
+                <TextView
+                    android:id="@+id/tvPoint"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Point: "
+                    android:textColor="@color/black"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/point"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:text="36"
+                    android:textColor="@color/black"
+                    android:textSize="18sp" />
+            </LinearLayout>
+
+
+            <!-- card_members.xml -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                app:cardCornerRadius="8dp"
+                app:cardElevation="4dp">
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="right"
-                    android:orientation="horizontal">
+                    android:background="@color/white"
+                    android:orientation="vertical"
+                    android:padding="16dp">
 
-                    <ImageButton
-                        android:id="@+id/backWeekButton"
-                        android:layout_width="wrap_content"
+                    <!-- Tiêu đề cho danh sách thành viên -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:background="@color/white"
-                        android:src="@drawable/baseline_arrow_left_24" />
+                        android:layout_marginTop="5dp"
+                        android:orientation="horizontal">
 
-                    <TextView
-                        android:id="@+id/dateNowDetailLeft"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="6dp"
-                        android:layout_marginRight="10dp"
-                        android:background="@drawable/rectangle_border"
-                        android:padding="6dp"
-                        android:text="20"
-                        android:textColor="@color/black" />
+                        <TextView
+                            android:id="@+id/textViewMember"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Members: "
+                            android:textColor="@android:color/black"
+                            android:textSize="18sp"
+                            android:textStyle="bold" />
 
-                    <TextView
-                        android:id="@+id/dateNowDetail"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/rectangle_border"
-                        android:padding="6dp"
-                        android:paddingBottom="2dp"
-                        android:textSize="20dp"
-                        android:text="24"
-                        android:textColor="@color/black" />
+                        <TextView
+                            android:id="@+id/textViewAddMember"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="4dp"
+                            android:text="Add member"
+                            android:textColor="@color/light_orange"
+                            android:textSize="14sp"
+                            app:layout_constraintEnd_toEndOf="parent"
 
-                    <TextView
-                        android:id="@+id/dateNowDetailRight"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginRight="6dp"
-                        android:background="@drawable/rectangle_border"
-                        android:padding="6dp"
-                        android:text="26"
-                        android:textColor="@color/black" />
+                            />
+                    </LinearLayout>
 
-                    <ImageButton
-                        android:id="@+id/nextWeekButton"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:background="@color/white"
-                        android:src="@drawable/baseline_arrow_right_24" />
-
+                    <!-- RecyclerView để hiển thị danh sách thành viên -->
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recyclerViewMembers"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:scrollbars="vertical" />
                 </LinearLayout>
-
-
-            </LinearLayout>
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rvSlots"
-                android:layout_width="match_parent"
-                android:layout_height="300dp"
-                android:layout_marginTop="8dp" />
-
-            <LinearLayout
-                android:id="@+id/mentorBottom"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_gravity="center"
-                android:layout_marginTop="10dp">
-
-                <ImageButton
-                    android:id="@+id/backDayButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:background="@color/white"
-                    android:layout_marginRight="10dp"
-                    android:src="@drawable/baseline_keyboard_double_arrow_left_24" />
-
-                <ImageButton
-                    android:id="@+id/nextDayButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:background="@color/white"
-                    android:layout_marginLeft="10dp"
-                    android:src="@drawable/baseline_keyboard_double_arrow_right_24" />
-            </LinearLayout>
-
-            <!-- RecyclerView để hiển thị danh sách thành viên -->
-        </LinearLayout>
-    </androidx.cardview.widget.CardView>
-    <androidx.cardview.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="8dp"
-        app:cardElevation="4dp"
-        app:cardCornerRadius="8dp">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:background="@color/white"
-            android:padding="16dp">
-
-            <!-- Tiêu đề cho danh sách thành viên -->
-            <LinearLayout
+            </androidx.cardview.widget.CardView>
+            <!-- card mentor.xml -->
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="5dp">
+                android:layout_margin="8dp"
+                app:cardCornerRadius="8dp"
+                app:cardElevation="4dp">
 
-                <TextView
-                    android:id="@+id/textViewProject"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Project: "
-                    android:textSize="18sp"
-                    android:textStyle="bold"
-                    android:textColor="@android:color/black"/>
+                    android:background="@color/white"
+                    android:orientation="vertical"
+                    android:padding="16dp">
 
-                <TextView
-                    android:id="@+id/textViewAddProject"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Add project"
-                    android:textColor="@color/light_orange"
-                    android:textSize="14sp"
-                    android:padding="4dp"/>
-            </LinearLayout>
+                    <!-- Tiêu đề cho danh sách thành viên -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:orientation="horizontal">
 
-            <!-- RecyclerView để hiển thị danh sách thành viên -->
-            <TextView
-                android:id="@+id/tvProjectName"
+                        <TextView
+                            android:id="@+id/textViewMentor"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Mentor: "
+                            android:textColor="@android:color/black"
+                            android:textSize="18sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/textViewAddMentor"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="4dp"
+                            android:text="Add mentor"
+                            android:textColor="@color/light_orange"
+                            android:textSize="14sp"
+                            android:visibility="gone" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/tvMentor"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:scrollbars="vertical"
+                        android:text="Hai Do - nguyenhai@gmail.com"
+                        android:textColor="@color/black"
+                        android:visibility="gone" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:background="@color/black" />
+
+                    <LinearLayout
+                        android:id="@+id/mentorSlotHeader"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginBottom="16dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:text="Mentor Slots"
+                            android:textColor="@color/black"
+                            android:textSize="18dp"
+                            android:textStyle="normal" />
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="right"
+                            android:orientation="horizontal">
+
+                            <ImageButton
+                                android:id="@+id/backWeekButton"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:background="@color/white"
+                                android:src="@drawable/baseline_arrow_left_24" />
+
+                            <TextView
+                                android:id="@+id/dateNowDetailLeft"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="6dp"
+                                android:layout_marginRight="10dp"
+                                android:background="@drawable/rectangle_border"
+                                android:padding="6dp"
+                                android:text="20"
+                                android:textColor="@color/black" />
+
+                            <TextView
+                                android:id="@+id/dateNowDetail"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:background="@drawable/rectangle_border"
+                                android:padding="6dp"
+                                android:paddingBottom="2dp"
+                                android:text="24"
+                                android:textColor="@color/black"
+                                android:textSize="20dp" />
+
+                            <TextView
+                                android:id="@+id/dateNowDetailRight"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="10dp"
+                                android:layout_marginRight="6dp"
+                                android:background="@drawable/rectangle_border"
+                                android:padding="6dp"
+                                android:text="26"
+                                android:textColor="@color/black" />
+
+                            <ImageButton
+                                android:id="@+id/nextWeekButton"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:background="@color/white"
+                                android:src="@drawable/baseline_arrow_right_24" />
+
+                        </LinearLayout>
+
+
+                    </LinearLayout>
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rvSlots"
+                        android:layout_width="match_parent"
+                        android:layout_height="300dp"
+                        android:layout_marginTop="8dp" />
+
+                    <LinearLayout
+                        android:id="@+id/mentorBottom"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="10dp"
+                        android:orientation="horizontal">
+
+                        <ImageButton
+                            android:id="@+id/backDayButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginRight="10dp"
+                            android:background="@color/white"
+                            android:src="@drawable/baseline_keyboard_double_arrow_left_24" />
+
+                        <ImageButton
+                            android:id="@+id/nextDayButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginLeft="10dp"
+                            android:background="@color/white"
+                            android:src="@drawable/baseline_keyboard_double_arrow_right_24" />
+                    </LinearLayout>
+
+                    <!-- RecyclerView để hiển thị danh sách thành viên -->
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:textColor="@color/black"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                app:cardCornerRadius="8dp"
+                app:cardElevation="4dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <!-- Tiêu đề cho danh sách thành viên -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/textViewProject"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Project: "
+                            android:textColor="@android:color/black"
+                            android:textSize="18sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/textViewAddProject"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="4dp"
+                            android:text="Add project"
+                            android:textColor="@color/light_orange"
+                            android:textSize="14sp" />
+                    </LinearLayout>
+
+                    <!-- RecyclerView để hiển thị danh sách thành viên -->
+                    <TextView
+                        android:id="@+id/tvProjectName"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_marginHorizontal="15dp"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:scrollbars="vertical"
+                        android:text="Diamon system"
+                        android:textColor="@color/black"
+                        android:textStyle="bold"
+                        android:visibility="gone" />
+
+                    <TextView
+                        android:id="@+id/tvProjectDescription"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:scrollbars="vertical"
+                        android:text="diamon system is a system that allow people to pay the orderthat"
+                        android:textColor="@color/black"
+                        android:visibility="gone" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <LinearLayout
+                android:id="@+id/linearBookingHistory"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="30dp"
                 android:gravity="center"
-                android:text="Diamon system"
-                android:visibility="gone"
-                android:layout_marginHorizontal="15dp"
-                android:textStyle="bold"
-                android:scrollbars="vertical"/>
-            <TextView
-                android:id="@+id/tvProjectDescription"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:visibility="gone"
-                android:textColor="@color/black"
-                android:text="diamon system is a system that allow people to pay the orderthat"
-                android:scrollbars="vertical"/>
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/addFoodType"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginTop="4dp"
+                    android:contentDescription="Search Icon" />
+
+            </LinearLayout>
+
         </LinearLayout>
-    </androidx.cardview.widget.CardView>
-    <LinearLayout
-        android:id="@+id/linearBookingHistory"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginHorizontal="30dp"
-        android:gravity="center">
-        <ImageView
-            android:id="@+id/addFoodType"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_gravity="center_vertical"
-            android:layout_marginStart="12dp"
-            android:layout_marginTop="4dp"
-            android:layout_alignParentStart="true"
-            android:contentDescription="Search Icon" />
-
-    </LinearLayout>
-
-</LinearLayout>
-</androidx.core.widget.NestedScrollView>
+    </androidx.core.widget.NestedScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

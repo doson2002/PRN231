@@ -64,7 +64,7 @@ import retrofit2.Callback;
 public class GroupDetailActivity extends AppCompatActivity {
 
     private TextView textViewAddMember,textViewAddMentor, textViewAddProject;
-    private TextView groupName, groupDescription,tvMentor, textViewProject,tvProjectName, tvProjectDescription;
+    private TextView groupName, groupDescription,point,tvMentor, textViewProject,tvProjectName, tvProjectDescription;
     private RecyclerView recyclerViewMembers, recyclerViewMembersDialog, recyclerViewMentorsDialog;
     private MemberAdapter memberAdapter;
     private MemberSearchAdapter memberAdapterSearch, mentorAdapterSearch;
@@ -116,6 +116,7 @@ public class GroupDetailActivity extends AppCompatActivity {
         textViewProject = findViewById(R.id.textViewProject);
         tvProjectName = findViewById(R.id.tvProjectName);
         groupName = findViewById(R.id.groupName);
+        point = findViewById(R.id.point);
         groupDescription = findViewById(R.id.groupDescription);
         tvProjectDescription = findViewById(R.id.tvProjectDescription);
         recyclerViewMembers = findViewById(R.id.recyclerViewMembers);
@@ -207,6 +208,7 @@ public class GroupDetailActivity extends AppCompatActivity {
                             tvProjectName.setText(projectName);
                             tvProjectDescription.setVisibility(View.VISIBLE);
                             tvProjectDescription.setText(description);
+                            textViewAddProject.setVisibility(View.GONE);
                             dialog.dismiss();
                         },
                         error -> {
@@ -395,7 +397,7 @@ public class GroupDetailActivity extends AppCompatActivity {
                     }
                 } else {
                     runOnUiThread(() -> {
-                        Toast.makeText(GroupDetailActivity.this, "", Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(GroupDetailActivity.this, "", Toast.LENGTH_SHORT).show();
                     });
                 }
             }
@@ -427,6 +429,8 @@ public class GroupDetailActivity extends AppCompatActivity {
                                 String mentorEmail = groupObject.getString("mentorEmail");
                                 String projectDescription = groupObject.getString("projectDescription");
 
+                                double points = groupObject.has("bookingPoints") ? groupObject.optDouble("bookingPoints", 0) : 0;
+
                                 Log.d("123", mentorId);
                                 mentorIdPublic = mentorId;
                                 mentorNamePublic = mentorName;
@@ -434,6 +438,7 @@ public class GroupDetailActivity extends AppCompatActivity {
                                 // Hiển thị thông tin nhóm
                                 groupName.setText(groupObject.getString("name"));
                                 groupDescription.setText(groupObject.getString("stack"));
+                                point.setText(String.valueOf(points));
                                 if(mentorName.equalsIgnoreCase("Has No Mentor Yet")){
                                     tvMentor.setVisibility(View.VISIBLE);
                                     tvMentor.setText("Has No Mentor Yet");

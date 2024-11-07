@@ -20,5 +20,6 @@
     <color name="colorText">#000000</color> <!-- Màu text (đen) -->
     <color name="light_orange">#E26238</color>
     <color name="yellow">#FFEB3B</color>
+    <color name="red">#FF0000</color>
 
 </resources>

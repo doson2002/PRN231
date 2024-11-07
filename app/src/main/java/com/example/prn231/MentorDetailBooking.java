@@ -14,6 +14,9 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.prn231.Model.Error422Response;
+import com.google.gson.Gson;
+
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
@@ -35,6 +38,7 @@ import com.example.prn231.Services.GroupServices;
 import com.example.prn231.Services.MentorServices;
 import com.example.prn231.Services.ScheduleServices;
 import com.example.prn231.Services.SubjectServices;
+import com.google.gson.Gson;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -48,7 +52,7 @@ public class MentorDetailBooking extends AppCompatActivity {
     ScheduleApi scheduleServices;
     GroupApi groupServices;
     SubjectApi subServices;
-    TextView tvmentorName, tvmentorSlot, tvslotType, tvslotNote, tvMentorDate;
+    TextView tvmentorName, tvmentorSlot, tvslotType, tvslotNote, tvMentorDate, startSLotError, endSLotError;
     EditText edStart, edEnd;
     Button btnBooking;
     Spinner spinner;
@@ -77,6 +81,8 @@ public class MentorDetailBooking extends AppCompatActivity {
         edEnd = findViewById(R.id.etEndSLot);
         spinner = findViewById(R.id.spinnerGroupSelection);
         spinnerSub = findViewById(R.id.spinnerSubSelection);
+        startSLotError = findViewById(R.id.etStartSLotError);
+        endSLotError = findViewById(R.id.etEndSLotError);
 
         groupServices = GroupServices.getGroupApi();
         subServices = SubjectServices.SubjectServices();
@@ -98,6 +104,9 @@ public class MentorDetailBooking extends AppCompatActivity {
             findViewById(R.id.spinGroupText).setVisibility(View.GONE);
             spinner.setVisibility(View.GONE);
         }
+
+        startSLotError.setVisibility(View.GONE);
+        endSLotError.setVisibility(View.GONE);
 
         groupIdChoice = groupId;
 
@@ -261,10 +270,33 @@ public class MentorDetailBooking extends AppCompatActivity {
                         } else {
                             try {
                                 String errorBody = response.errorBody().string();
-                                Log.e("API Error", "Code: " + response.code() + " Body: " + errorBody);
-                                Toast.makeText(MentorDetailBooking.this,
-                                        "Error: " + response.code() + " - " + errorBody,
-                                        Toast.LENGTH_SHORT).show();
+                                Gson gson = new Gson();
+                                Error422Response errorResponse = gson.fromJson(errorBody, Error422Response.class);
+                                if(errorResponse.getStatus() == 422){
+                                    for (Error422Response.ErrorDetail error : errorResponse.getErrors()) {
+                                        if ("StartTime".equals(error.getCode())) {
+                                            // Handle 'StartTime' validation error
+                                            System.out.println("StartTime error: " + error.getMessage());
+                                            startSLotError.setVisibility(View.VISIBLE);
+                                            startSLotError.setText("Must be not empy or in format hh:MM");
+
+                                        } else if ("EndTime".equals(error.getCode())) {
+                                            // Handle 'EndTime' validation error
+                                            System.out.println("EndTime error: " + error.getMessage());
+                                            endSLotError.setVisibility(View.VISIBLE);
+                                            endSLotError.setText("Must be not empy or in format hh:MM");
+                                        }
+                                    }
+                                } else {
+                                    startSLotError.setVisibility(View.GONE);
+                                    endSLotError.setVisibility(View.GONE);
+                                }
+                                if(errorResponse.getStatus() == 400 || errorResponse.getStatus() == 500){
+                                    Log.e("API Error", "Code: " + response.code() + " Body: " + errorBody);
+                                    Toast.makeText(MentorDetailBooking.this,
+                                            errorResponse.getDetail(),
+                                            Toast.LENGTH_SHORT).show();
+                                }
 
                             } catch (IOException e) {
                                 e.printStackTrace();

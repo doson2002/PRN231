@@ -219,8 +219,7 @@
                 <LinearLayout
                     android:layout_width="370dp"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginBottom="20dp">
+                    android:orientation="horizontal">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -248,8 +247,36 @@
                 <LinearLayout
                     android:layout_width="370dp"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginBottom="20dp">
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="Start Error: "
+                        android:layout_weight="1"
+                        android:textColor="@color/black"
+                        android:visibility="invisible"/>
+
+                    <TextView
+                        android:id="@+id/etStartSLotError"
+                        android:layout_width="255dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:textColor="@color/red"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="20dp"
+                        android:padding="2dp"
+                        android:paddingLeft="10dp"
+                        android:gravity="start"
+                        android:inputType="text"
+                        android:text="Kakka" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="370dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -272,6 +299,34 @@
                         android:gravity="start"
                         android:inputType="datetime"
                         android:background="@drawable/rectangle_border"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="370dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="Start Error: "
+                        android:layout_weight="1"
+                        android:textColor="@color/black"
+                        android:visibility="invisible"/>
+
+                    <TextView
+                        android:id="@+id/etEndSLotError"
+                        android:layout_width="255dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:textColor="@color/red"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="20dp"
+                        android:padding="2dp"
+                        android:paddingLeft="10dp"
+                        android:gravity="start"
+                        android:inputType="text"
+                        android:text="Kakka" />
                 </LinearLayout>
 
                 <LinearLayout

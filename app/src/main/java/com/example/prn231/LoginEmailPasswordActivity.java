@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.util.Base64;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -32,6 +33,8 @@ public class LoginEmailPasswordActivity extends AppCompatActivity {
     private String userId;
     private String email;
 
+    private ImageView backBtn;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,6 +44,7 @@ public class LoginEmailPasswordActivity extends AppCompatActivity {
         emailInput = findViewById(R.id.emailInput);
         passwordInput = findViewById(R.id.passwordInput);
         loginButton = findViewById(R.id.loginButton);
+        backBtn = findViewById(R.id.imageView);
 
         loginButton.setOnClickListener(v -> {
             String emailText = emailInput.getText().toString().trim();
@@ -50,6 +54,11 @@ public class LoginEmailPasswordActivity extends AppCompatActivity {
             } else {
                 Toast.makeText(this, "Please enter email and password", Toast.LENGTH_SHORT).show();
             }
+        });
+
+        backBtn.setOnClickListener(v -> {
+            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+            startActivity(intent);
         });
     }
 

@@ -397,7 +397,7 @@ public class GroupDetailActivity extends AppCompatActivity {
                     }
                 } else {
                     runOnUiThread(() -> {
-                        Toast.makeText(GroupDetailActivity.this, "", Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(GroupDetailActivity.this, "", Toast.LENGTH_SHORT).show();
                     });
                 }
             }
@@ -429,6 +429,8 @@ public class GroupDetailActivity extends AppCompatActivity {
                                 String mentorEmail = groupObject.getString("mentorEmail");
                                 String projectDescription = groupObject.getString("projectDescription");
 
+                                double points = groupObject.has("bookingPoints") ? groupObject.optDouble("bookingPoints", 0) : 0;
+
                                 Log.d("123", mentorId);
                                 mentorIdPublic = mentorId;
                                 mentorNamePublic = mentorName;
@@ -436,7 +438,7 @@ public class GroupDetailActivity extends AppCompatActivity {
                                 // Hiển thị thông tin nhóm
                                 groupName.setText(groupObject.getString("name"));
                                 groupDescription.setText(groupObject.getString("stack"));
-                                point.setText((int) groupObject.getDouble("BookingPoint"));
+                                point.setText(String.valueOf(points));
                                 if(mentorName.equalsIgnoreCase("Has No Mentor Yet")){
                                     tvMentor.setVisibility(View.VISIBLE);
                                     tvMentor.setText("Has No Mentor Yet");

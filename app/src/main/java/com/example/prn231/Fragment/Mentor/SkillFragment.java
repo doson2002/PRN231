@@ -77,6 +77,7 @@ public class SkillFragment extends Fragment {
     private  ImageView selectedImageView;
     private static final int PICK_IMAGE_MULTIPLE = 1;
     private List<Uri> selectedImagesUris; // Danh sách chứa URI của các ảnh đã chọn
+    private String accessToken, mentorId;
 
 
     @Nullable
@@ -84,8 +85,8 @@ public class SkillFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_skill, container, false);
         SharedPreferences sharedPreferences = requireContext().getSharedPreferences("PRN231", MODE_PRIVATE);
-        String accessToken = sharedPreferences.getString("accessToken","");
-        String mentorId = sharedPreferences.getString("userId","");
+         accessToken = sharedPreferences.getString("accessToken","");
+         mentorId = sharedPreferences.getString("userId","");
 
         recyclerViewList = view.findViewById(R.id.recyclerViewList);
 
@@ -195,6 +196,7 @@ public class SkillFragment extends Fragment {
             public void onResponse(Call<ResponseBody> call, retrofit2.Response<ResponseBody> response) {
                 if (response.isSuccessful()) {
                     Toast.makeText(requireContext(), "Skill created successfully!", Toast.LENGTH_SHORT).show();
+                    loadSkillDataFromAPI(accessToken,mentorId);
                 } else {
                     Toast.makeText(requireContext(), "Upload failed: " + response.message(), Toast.LENGTH_SHORT).show();
                 }

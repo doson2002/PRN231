@@ -66,7 +66,16 @@ public class AccountFragment  extends Fragment {
                                 String fullName = value.getString("fullName");
                                 String email = value.getString("email");
                                 // Cập nhật UI: Tên, Email và Điểm
-                                tvUserName.setText(fullName);
+                                SharedPreferences sharedPreferences = requireContext().getSharedPreferences("PRN231", MODE_PRIVATE);
+                                String role = sharedPreferences.getString("role", "");
+                                String nameText = "";
+                                if(role.equals("0")) {
+                                    nameText = "Student " + fullName;
+                                }
+                                if(role.equals("1")) {
+                                    nameText = "Mentor " + fullName;
+                                }
+                                tvUserName.setText(nameText);
                                 tvEmail.setText(email);
                             } else {
                                 // Xử lý khi response không thành công

@@ -254,9 +254,9 @@ public class MentorDetailBooking extends AppCompatActivity {
                 Log.d("slotId", slotId);
                 MentorSlotRequestBody requestBody = new MentorSlotRequestBody(
                         slotId,
-                        subIdChoice,
                         groupIdChoice,
-                        edStart.getText().toString(), edEnd.getText().toString());
+                        edStart.getText().toString(),
+                        edEnd.getText().toString());
 
                 Log.d("123123", authToken);
 

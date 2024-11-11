@@ -129,9 +129,11 @@ public class HomeStudentFragment extends Fragment {
                                 String fullName = value.getString("fullName");
                                 String email = value.getString("email");
                                 int points = value.getInt("points");
+                                int role = value.getInt("role");
+
 
                                 // Cập nhật UI: Tên, Email và Điểm
-                                updateUserInfo(fullName, email, points);
+                                updateUserInfo(fullName, email, points, role);
                             } else {
                                 // Xử lý khi response không thành công
                                 Toast.makeText(requireActivity(), "Không thể lấy thông tin người dùng!", Toast.LENGTH_SHORT).show();
@@ -170,7 +172,7 @@ public class HomeStudentFragment extends Fragment {
         RequestQueue requestQueue = Volley.newRequestQueue(requireContext());
         requestQueue.add(jsonObjectRequest);
     }
-    private void updateUserInfo(String fullName, String email, int points) {
+    private void updateUserInfo(String fullName, String email, int points, int role) {
         // Lấy View header của NavigationView
         View headerView = navigationView.getHeaderView(0);
 
@@ -178,9 +180,14 @@ public class HomeStudentFragment extends Fragment {
         TextView userNameTextView = headerView.findViewById(R.id.user_name);
         TextView userEmailTextView = headerView.findViewById(R.id.user_email);
         TextView userPointTextView = headerView.findViewById(R.id.user_point);
-
+        String textRole;
+        if (role == 1){
+            textRole = "Mentor";
+        }else{
+            textRole = "Student";
+        }
         // Cập nhật thông tin
-        userNameTextView.setText(fullName);
+        userNameTextView.setText(fullName + " - " + textRole);
         userEmailTextView.setText(email);
         userPointTextView.setText("Point: " +points);
     }

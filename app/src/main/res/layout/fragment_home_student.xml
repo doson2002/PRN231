@@ -86,6 +86,7 @@
 
         <!-- Mentor & Schedule Buttons -->
         <LinearLayout
+            android:id="@+id/linear1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
@@ -119,32 +120,47 @@
                     android:textSize="16sp" />
             </LinearLayout>
 
-            <LinearLayout
-                android:id="@+id/btn_search_mentor"
+
+        </LinearLayout>
+        <TextView
+            android:id="@+id/tv_mentor_search"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Search Schedule"
+            android:textColor="@color/blue"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintTop_toBottomOf="@id/linear1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="20dp" />
+        <LinearLayout
+            android:id="@+id/btn_search_mentor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintTop_toBottomOf="@id/tv_mentor_search"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:background="@drawable/rounded_button_background_with_shadow"
+            android:elevation="12dp"
+            android:layout_marginTop="10dp">
+
+            <ImageView
+                android:id="@+id/btn_search"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:src="@drawable/baseline_search_24"
+                android:scaleType="fitCenter"
+                android:layout_gravity="center_horizontal" />
+
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:background="@drawable/rounded_button_background_with_shadow"
-                android:layout_marginTop="20dp"
-                android:elevation="20dp"
-                android:layout_gravity="center_horizontal"
-                android:clickable="true">
-
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="100dp"
-                    android:background="@drawable/rounded_button_background"
-                    android:src="@drawable/baseline_search_24"
-                    android:scaleType="fitCenter" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:text="Add Schedule"
-                    android:textColor="@color/orange"
-                    android:textSize="16sp" />
-            </LinearLayout>
+                android:text="Add Schedule"
+                android:textColor="@color/orange"
+                android:textSize="16sp"
+                android:layout_gravity="center_horizontal" />
         </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

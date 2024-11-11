@@ -7,9 +7,6 @@ public class MentorSlotRequestBody {
     @SerializedName("slotId")
     private String slotId;
 
-    @SerializedName("subjectId")
-    private String subjectId;
-
     @SerializedName("groupId")
     private String groupId;
 
@@ -19,9 +16,8 @@ public class MentorSlotRequestBody {
     @SerializedName("endTime")
     private String endTime;
 
-    public MentorSlotRequestBody(String slotId, String subjectId, String groupId, String startTime, String endTime) {
+    public MentorSlotRequestBody(String slotId, String groupId, String startTime, String endTime) {
         this.slotId = slotId;
-        this.subjectId = subjectId;
         this.groupId = groupId;
         this.startTime = startTime;
         this.endTime = endTime;
@@ -42,14 +38,6 @@ public class MentorSlotRequestBody {
 
     public void setSlotId(String slotId) {
         this.slotId = slotId;
-    }
-
-    public String getSubjectId() {
-        return subjectId;
-    }
-
-    public void setSubjectId(String subjectId) {
-        this.subjectId = subjectId;
     }
 
     public String getStartTime() {

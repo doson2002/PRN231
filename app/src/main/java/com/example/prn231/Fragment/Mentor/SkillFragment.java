@@ -40,6 +40,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.prn231.Adapter.SelectedImagesAdapter;
 import com.example.prn231.Adapter.SkillAdapter;
 import com.example.prn231.Api.ApiEndPoint;
 
@@ -86,6 +87,8 @@ public class SkillFragment extends Fragment {
     private static final int PICK_IMAGE_MULTIPLE = 1;
     private List<Uri> selectedImagesUris; // Danh sách chứa URI của các ảnh đã chọn
     private String accessToken, mentorId;
+    private SelectedImagesAdapter selectedImagesAdapter;
+    private RecyclerView selectedImagesRecyclerView;
 
 
     @Nullable
@@ -121,17 +124,23 @@ public class SkillFragment extends Fragment {
             Button buttonCancel = dialog.findViewById(R.id.buttonCancel);
             Button buttonConfirm = dialog.findViewById(R.id.buttonConfirm);
             Spinner spinnerSkill = dialog.findViewById(R.id.spinnerSkill);
-             selectedImageView = dialog.findViewById(R.id.selectedImageView);
             Button buttonChooseImage = dialog.findViewById(R.id.buttonChooseImage);
             // Khởi tạo danh sách ảnh đã chọn
+            selectedImagesRecyclerView = dialog.findViewById(R.id.selectedImageView);
+            selectedImagesRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
             selectedImagesUris = new ArrayList<>();
+            selectedImagesAdapter = new SelectedImagesAdapter(selectedImagesUris, position -> {
+                selectedImagesUris.remove(position);
+                selectedImagesAdapter.updateImages(selectedImagesUris);
+            });
+            selectedImagesRecyclerView.setAdapter(selectedImagesAdapter);
 
             buttonChooseImage.setOnClickListener(view1 -> {
-                // Sử dụng ImagePicker để chọn ảnh
                 ImagePicker.with(this)
-                        .galleryOnly() // Chỉ cho phép chọn từ thư viện
-                        .maxResultSize(1080, 1080) // Kích thước tối đa
-                        .compress(1024) // Kích thước nén
+                        .galleryOnly()
+                        .maxResultSize(1080, 1080)
+                        .compress(1024)
+                        .galleryMimeTypes(new String[]{"image/png", "image/jpeg"})
                         .start();
             });
             // Thiết lập Spinner với adapter
@@ -380,12 +389,10 @@ public class SkillFragment extends Fragment {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (resultCode == Activity.RESULT_OK && data != null) {
-            // Lấy Uri của ảnh đã chọn
             Uri imageUri = data.getData();
             if (imageUri != null) {
                 selectedImagesUris.add(imageUri);
-                // Cập nhật UI để hiển thị ảnh đã chọn
-                selectedImageView.setImageURI(imageUri);
+                selectedImagesAdapter.updateImages(selectedImagesUris);
             }
         }
     }

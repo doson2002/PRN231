@@ -40,7 +40,7 @@
                 android:gravity="end"
                 android:visibility="gone"
                 android:textColor="@color/orange"
-                android:text="add feedback" />
+                android:text="Add feedback" />
         </LinearLayout>
 
         <!-- LinearLayout ngang để chứa tvGroupName và tvFeedBackStatus -->
@@ -84,7 +84,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="end"
                 android:textColor="@color/black"
-                android:text="peding - " />
+                android:text="pending - " />
             <TextView
                 android:id="@+id/tvChangeStatus"
                 android:layout_width="wrap_content"

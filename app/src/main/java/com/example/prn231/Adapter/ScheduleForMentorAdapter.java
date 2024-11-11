@@ -12,8 +12,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -102,6 +104,7 @@ public class ScheduleForMentorAdapter extends RecyclerView.Adapter<ScheduleForMe
             @Override
             public void onClick(View view) {
                 showFeedbackDialog(holder.itemView.getContext(),schedule);
+
             }
         });
     }
@@ -134,9 +137,11 @@ public class ScheduleForMentorAdapter extends RecyclerView.Adapter<ScheduleForMe
         EditText editTextFeedback = dialog.findViewById(R.id.editTextProjectName);
         RatingBar ratingBar = dialog.findViewById(R.id.ratingBarInput);
         Button buttonConfirm = dialog.findViewById(R.id.buttonConfirm);
+        CheckBox checkBoxPresentStatus = dialog.findViewById(R.id.checkBoxPresentStatus);
+        LinearLayout linearCheck = dialog.findViewById(R.id.linearCheck);
         Button buttonCancel = dialog.findViewById(R.id.buttonCancel);
         ImageView closeButton = dialog.findViewById(R.id.close_button);
-
+        linearCheck.setVisibility(View.VISIBLE);
         // Đóng dialog khi nhấn vào nút "Hủy" hoặc biểu tượng "X"
         buttonCancel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -160,11 +165,19 @@ public class ScheduleForMentorAdapter extends RecyclerView.Adapter<ScheduleForMe
                 int rating = (int) ratingBar.getRating();
                 String scheduleId = scheduleBooked.getId();
                 String groupId = scheduleBooked.getGroupId();
-                sendFeedback(feedback,rating,scheduleId,groupId);
+                boolean isPresent = checkBoxPresentStatus.isChecked();
+                // Gửi feedback và xử lý cập nhật giao diện khi thành công
+                sendFeedback(feedback, rating, scheduleId, groupId, isPresent, scheduleBooked, new FeedbackCallback() {
+                    @Override
+                    public void onFeedbackSent(ScheduleBooked schedule) {
+                        // Ẩn tvAddFeedback khi phản hồi từ server thành công
+                        schedule.setFeedBack(true); // Đánh dấu đã gửi feedback
+                        notifyDataSetChanged(); // Cập nhật giao diện cho toàn bộ danh sách
+                    }
+                });
 
                 // Thực hiện hành động sau khi người dùng nhập feedback và đánh giá
                 // Ví dụ: gửi feedback lên server hoặc cập nhật giao diện
-
                 dialog.dismiss(); // Đóng dialog sau khi xác nhận
             }
         });
@@ -173,7 +186,8 @@ public class ScheduleForMentorAdapter extends RecyclerView.Adapter<ScheduleForMe
         dialog.show();
     }
     // Hàm gửi feedback lên server
-    private void sendFeedback(String feedback, float rating, String scheduleId,String  groupId) {
+    private void sendFeedback(String feedback, float rating, String scheduleId,String  groupId, boolean isPresent,
+                              ScheduleBooked scheduleBooked, FeedbackCallback callback) {
         SharedPreferences sharedPreferences = context.getSharedPreferences("PRN231", MODE_PRIVATE);
         String accessToken = sharedPreferences.getString("accessToken","");
         JSONObject requestBody = new JSONObject();
@@ -182,6 +196,7 @@ public class ScheduleForMentorAdapter extends RecyclerView.Adapter<ScheduleForMe
             requestBody.put("content", feedback);
             requestBody.put("scheduleId", scheduleId);
             requestBody.put("rating", rating);
+            requestBody.put("isPresent", isPresent);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -192,6 +207,7 @@ public class ScheduleForMentorAdapter extends RecyclerView.Adapter<ScheduleForMe
                 Request.Method.POST, url, requestBody,
                 response -> {
                     Toast.makeText(context, "Gửi feedback thành công!", Toast.LENGTH_SHORT).show();
+                    callback.onFeedbackSent(scheduleBooked); // Gọi callback khi thành công
                 },
                 error -> {
                     Toast.makeText(context, "Lỗi khi gửi feedback!", Toast.LENGTH_SHORT).show();
@@ -215,5 +231,8 @@ public class ScheduleForMentorAdapter extends RecyclerView.Adapter<ScheduleForMe
 
     public interface OnScheduleClickListener {
         void onStatusChangeClick(ScheduleBooked schedule);
+    }
+    public interface FeedbackCallback {
+        void onFeedbackSent(ScheduleBooked scheduleBooked);
     }
 }

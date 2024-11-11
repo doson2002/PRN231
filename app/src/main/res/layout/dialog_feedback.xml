@@ -63,7 +63,32 @@
             app:layout_constraintStart_toStartOf="parent"
             android:layout_gravity="start"
             />
+        <LinearLayout
+            android:id="@+id/linearCheck"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+           android:paddingHorizontal="20dp"
+            android:gravity="center_horizontal"
+            android:visibility="gone"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toBottomOf="@+id/ratingBarInput"
+          >
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Present?"
+                android:textColor="@color/black"
+                />
+            <CheckBox
+                android:id="@+id/checkBoxPresentStatus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Active"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:checked="true" />
+        </LinearLayout>
 
 
 
@@ -74,7 +99,7 @@
             android:gravity="end"
             android:orientation="horizontal"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/ratingBarInput"
+            app:layout_constraintTop_toBottomOf="@+id/linearCheck"
             tools:layout_editor_absoluteX="5dp">
 
             <Button

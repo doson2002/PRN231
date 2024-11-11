@@ -64,8 +64,10 @@ public class ScheduleBookedAdapter extends RecyclerView.Adapter<ScheduleBookedAd
         holder.tvGroupName.setText(scheduleBooked.getGroupName());
         if(scheduleBooked.isFeedBack()){
             holder.tvFeedBackStatus.setText("Đã feedback");
+            holder.tvFeedBackStatus.setTextColor(Color.BLUE);
         }else {
             holder.tvFeedBackStatus.setText("Chưa feedback");
+            holder.tvFeedBackStatus.setTextColor(Color.RED);
 
         }
 //        holder.tvAddFeedback.setOnClickListener(new View.OnClickListener() {

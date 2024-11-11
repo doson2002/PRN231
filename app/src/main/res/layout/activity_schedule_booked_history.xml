@@ -33,7 +33,7 @@
             android:background="@color/light_black"
             android:layout_weight="1"
             android:scrollbars="vertical"
-            tools:listitem="@layout/item_food_order"/>
+           />
 
     </LinearLayout>
 

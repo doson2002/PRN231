@@ -54,7 +54,7 @@ public class HistoryFragment extends Fragment {
             @Override
             public WindowInsetsCompat onApplyWindowInsets(View v, WindowInsetsCompat insets) {
                 // Áp dụng padding để tránh bị thanh hệ thống che
-                v.setPadding(insets.getSystemWindowInsetLeft(), insets.getSystemWindowInsetTop(),
+                v.setPadding(insets.getSystemWindowInsetLeft(), 0,
                         insets.getSystemWindowInsetRight(), 0);
                 return insets.consumeSystemWindowInsets();
             }
@@ -71,16 +71,17 @@ public class HistoryFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(adapter);
 
-        int marginStart = 50; // Ví dụ: bạn có thể đặt giá trị này phù hợp với yêu cầu
-        int marginEnd = 50; // Ví dụ: bạn có thể đặt giá trị này phù hợp với yêu cầu
-        recyclerView.addItemDecoration(new ItemDecorationDividerForActivity(getActivity(), R.drawable.divider, marginStart, marginEnd));
-
+//        int marginStart = 50; // Ví dụ: bạn có thể đặt giá trị này phù hợp với yêu cầu
+//        int marginEnd = 50; // Ví dụ: bạn có thể đặt giá trị này phù hợp với yêu cầu
+//        recyclerView.addItemDecoration(new ItemDecorationDividerForActivity(getActivity(), R.drawable.divider, marginStart, marginEnd));
+//
 
 
         return  view;
 
 
     }
+
     private void fetchScheduleFromApi(String jwtToken) {
         String url = ApiEndPoint.GET_SCHEDULE_BOOKED;
 
@@ -98,11 +99,9 @@ public class HistoryFragment extends Fragment {
                         if (response.getBoolean("isSuccess")) {
                             // Lấy mảng "value"
                             JSONArray valueArray = response.getJSONArray("value");
-
                             // Loop through the array
                             for (int i = 0; i < valueArray.length(); i++) {
                                 JSONObject jsonObject = valueArray.getJSONObject(i);
-
                                 // Parse the JSON object
                                 ScheduleBooked scheduleBooked = new ScheduleBooked();
                                 scheduleBooked.setId(jsonObject.getString("id"));
@@ -112,11 +111,9 @@ public class HistoryFragment extends Fragment {
                                 scheduleBooked.setStartTime(jsonObject.getString("startTime"));
                                 scheduleBooked.setEndTime(jsonObject.getString("endTime"));
                                 scheduleBooked.setFeedBack(jsonObject.getBoolean("isFeedback"));
-
                                 // Add to the list
                                 scheduleBookedList.add(scheduleBooked);
                             }
-
                             // Notify the adapter that data has changed
                             adapter.notifyDataSetChanged();
                         } else {
@@ -125,7 +122,6 @@ public class HistoryFragment extends Fragment {
                             Log.e("API Error", errorMessage);
                             Toast.makeText(getActivity(), "Lỗi: " + errorMessage, Toast.LENGTH_SHORT).show();
                         }
-
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }

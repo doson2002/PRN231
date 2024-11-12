@@ -9,6 +9,9 @@ public class Subject {
         this.name = name;
     }
 
+    public Subject() {
+    }
+
     public String getGroupId() {
         return id;
     }
@@ -23,5 +26,10 @@ public class Subject {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    @Override
+    public String toString() {
+        return  name ;
     }
 }

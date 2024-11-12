@@ -57,13 +57,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/user_info">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="SCAN ME"
-            android:textColor="@color/black"
-            android:textSize="18sp"
-            android:textStyle="bold" />
+
 
         <ImageView
             android:id="@+id/qr_code"
@@ -71,7 +65,7 @@
             android:layout_height="150dp"
             android:layout_marginTop="8dp"
             android:contentDescription="qr"
-            android:src="@drawable/baseline_notification_add_24" />
+            android:src="@drawable/frame" />
     </LinearLayout>
 
     <!-- Check Information Section -->

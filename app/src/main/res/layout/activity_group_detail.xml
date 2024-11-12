@@ -448,7 +448,50 @@
                         android:visibility="gone" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                app:cardCornerRadius="8dp"
+                app:cardElevation="4dp">
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <!-- Tiêu đề cho danh sách thành viên -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/textViewSubject"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Subject: "
+                            android:textColor="@android:color/black"
+                            android:textSize="18sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/textViewSubjectName"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="4dp"
+                            android:text="Subject Name"
+                            android:textColor="@color/black"
+                            android:textSize="14sp" />
+                    </LinearLayout>
+
+
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
             <LinearLayout
                 android:id="@+id/linearBookingHistory"
                 android:layout_width="match_parent"

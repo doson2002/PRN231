@@ -43,6 +43,8 @@ public class ApiEndPoint {
     public static final String CREATE_MENTOR_SKILL = BASE_URL_COMMAND + "mentorSkills";
 
 
+// subject
+public static final String GET_ALL_SUBJECT = BASE_URL_QUERY + "subjects";
 
 
 

@@ -3,12 +3,16 @@ package com.example.prn231;
 import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -17,19 +21,28 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.prn231.Api.ApiEndPoint;
+import com.example.prn231.DTO.SkillMentor;
+import com.example.prn231.Model.Subject;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class GroupActivity extends AppCompatActivity {
     private FloatingActionButton fabAddGroup;
+    private List<Subject> subjectList;
+    private ArrayAdapter<Subject> adapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,7 +62,29 @@ public class GroupActivity extends AppCompatActivity {
             Button buttonCancel = dialog.findViewById(R.id.buttonCancel);
             Button buttonConfirm = dialog.findViewById(R.id.buttonConfirm);
             ImageView closeButton = dialog.findViewById(R.id.close_button);
+            Spinner spinnerSubject = dialog.findViewById(R.id.spinnerSubject);
+            subjectList = new ArrayList<>();  // Tạo list chứa dữ liệu cho Spinner
+            adapter = new ArrayAdapter<Subject>(this, android.R.layout.simple_spinner_item, subjectList) {
 
+                @Override
+                public View getView(int position, View convertView, ViewGroup parent) {
+                    View view = super.getView(position, convertView, parent);
+                    // Đặt màu chữ cho item đã chọn
+                    ((TextView) view).setTextColor(Color.BLACK); // Màu chữ khi chưa click
+                    return view;
+                }
+                @Override
+                public View getDropDownView(int position, View convertView, ViewGroup parent) {
+                    View view = super.getDropDownView(position, convertView, parent);
+                    // Tùy chỉnh hiển thị item trong dropdown nếu cần
+                    return view;
+                }
+            };
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            spinnerSubject.setAdapter(adapter);
+
+            // Gọi API để tải dữ liệu cho Spinner
+            fetchSubjects();
             // Set listeners for buttons
             buttonCancel.setOnClickListener(view -> dialog.dismiss());
             closeButton.setOnClickListener(view -> dialog.dismiss());
@@ -58,6 +93,9 @@ public class GroupActivity extends AppCompatActivity {
                 // Get the input values
                 String groupName = editTextGroupName.getText().toString().trim();
                 String stackValue = editTextStack.getText().toString().trim();
+                // Lấy ra đối tượng Subject đã chọn từ Spinner
+                Subject selectedSubject = (Subject) spinnerSubject.getSelectedItem();
+                String subjectId = selectedSubject.getGroupId(); // Lấy subjectId từ Subject đã chọn
 
                 // Validate input fields
                 if (groupName.isEmpty() || stackValue.isEmpty()) {
@@ -70,6 +108,7 @@ public class GroupActivity extends AppCompatActivity {
                 try {
                     jsonBody.put("name", groupName);
                     jsonBody.put("stacks", stackValue);
+                    jsonBody.put("subjectId", subjectId);
                 } catch (JSONException e) {
                     e.printStackTrace();
                     Toast.makeText(this, "Failed to create JSON body", Toast.LENGTH_SHORT).show();
@@ -117,5 +156,43 @@ public class GroupActivity extends AppCompatActivity {
             dialog.show();
         });
 
+    }
+    private void fetchSubjects() {
+        String url = ApiEndPoint.GET_ALL_SUBJECT; // URL của API
+
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            JSONArray itemsArray = response.getJSONArray("value");
+
+                            // Duyệt qua các phần tử trong mảng items và thêm vào skillList
+                            for (int i = 0; i < itemsArray.length(); i++) {
+                                JSONObject skillObject = itemsArray.getJSONObject(i);
+                                String id = skillObject.getString("id");
+                                String name = skillObject.getString("name");
+                                Subject subject = new Subject();
+                                subject.setGroupId(id);
+                                subject.setName(name);
+                                subjectList.add(subject);
+                            }
+
+                            // Cập nhật adapter
+                            adapter.notifyDataSetChanged();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                error.printStackTrace(); // Xử lý lỗi
+            }
+        });
+
+        // Thêm request vào hàng đợi của Volley
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(request);
     }
 }

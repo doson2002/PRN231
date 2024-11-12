@@ -10,9 +10,12 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -33,6 +36,7 @@ import com.example.prn231.Adapter.GroupAdapter;
 import com.example.prn231.Api.ApiEndPoint;
 import com.example.prn231.DTO.Group;
 import com.example.prn231.DTO.Member;
+import com.example.prn231.Model.Subject;
 import com.example.prn231.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -51,6 +55,8 @@ public class GroupFragment extends Fragment {
     private GroupAdapter groupAdapter;
     private List<Group> groupList;
     private RequestQueue requestQueue;
+    private List<Subject> subjectList;
+    private ArrayAdapter<Subject> adapter;
 
     @Nullable
     @Override
@@ -87,7 +93,29 @@ public class GroupFragment extends Fragment {
             Button buttonCancel = dialog.findViewById(R.id.buttonCancel);
             Button buttonConfirm = dialog.findViewById(R.id.buttonConfirm);
             ImageView closeButton = dialog.findViewById(R.id.close_button);
+            Spinner spinnerSubject = dialog.findViewById(R.id.spinnerSubject);
+            subjectList = new ArrayList<>();  // Tạo list chứa dữ liệu cho Spinner
+            adapter = new ArrayAdapter<Subject>(requireContext(), android.R.layout.simple_spinner_item, subjectList) {
 
+                @Override
+                public View getView(int position, View convertView, ViewGroup parent) {
+                    View view = super.getView(position, convertView, parent);
+                    // Đặt màu chữ cho item đã chọn
+                    ((TextView) view).setTextColor(Color.BLACK); // Màu chữ khi chưa click
+                    return view;
+                }
+                @Override
+                public View getDropDownView(int position, View convertView, ViewGroup parent) {
+                    View view = super.getDropDownView(position, convertView, parent);
+                    // Tùy chỉnh hiển thị item trong dropdown nếu cần
+                    return view;
+                }
+            };
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            spinnerSubject.setAdapter(adapter);
+
+            // Gọi API để tải dữ liệu cho Spinner
+            fetchSubjects();
             // Set listeners for buttons
             buttonCancel.setOnClickListener(view1 -> dialog.dismiss());
             closeButton.setOnClickListener(view1 -> dialog.dismiss());
@@ -96,7 +124,9 @@ public class GroupFragment extends Fragment {
                 // Get the input values
                 String groupName = editTextGroupName.getText().toString().trim();
                 String stackValue = editTextStack.getText().toString().trim();
-
+                // Lấy ra đối tượng Subject đã chọn từ Spinner
+                Subject selectedSubject = (Subject) spinnerSubject.getSelectedItem();
+                String subjectId = selectedSubject.getGroupId(); // Lấy subjectId từ Subject đã chọn
                 // Validate input fields
                 if (groupName.isEmpty() || stackValue.isEmpty()) {
                     Toast.makeText(requireContext(), "Please fill in all fields", Toast.LENGTH_SHORT).show();
@@ -108,6 +138,8 @@ public class GroupFragment extends Fragment {
                 try {
                     jsonBody.put("name", groupName);
                     jsonBody.put("stacks", stackValue);
+                    jsonBody.put("subjectId", subjectId);
+
                 } catch (JSONException e) {
                     e.printStackTrace();
                     Toast.makeText(requireContext(), "Failed to create JSON body", Toast.LENGTH_SHORT).show();
@@ -157,6 +189,44 @@ public class GroupFragment extends Fragment {
         return view;
     }
 
+    private void fetchSubjects() {
+        String url = ApiEndPoint.GET_ALL_SUBJECT; // URL của API
+
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            JSONArray itemsArray = response.getJSONArray("value");
+
+                            // Duyệt qua các phần tử trong mảng items và thêm vào skillList
+                            for (int i = 0; i < itemsArray.length(); i++) {
+                                JSONObject skillObject = itemsArray.getJSONObject(i);
+                                String id = skillObject.getString("id");
+                                String name = skillObject.getString("name");
+                                Subject subject = new Subject();
+                                subject.setGroupId(id);
+                                subject.setName(name);
+                                subjectList.add(subject);
+                            }
+
+                            // Cập nhật adapter
+                            adapter.notifyDataSetChanged();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                error.printStackTrace(); // Xử lý lỗi
+            }
+        });
+
+        // Thêm request vào hàng đợi của Volley
+        RequestQueue requestQueue = Volley.newRequestQueue(requireContext());
+        requestQueue.add(request);
+    }
     private void loadGroupDataFromAPI(String accessToken) {
         String url = ApiEndPoint.GET_ALL_GROUP;  // Đổi thành URL API của bạn
 

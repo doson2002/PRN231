@@ -64,7 +64,7 @@ import retrofit2.Callback;
 public class GroupDetailActivity extends AppCompatActivity {
 
     private TextView textViewAddMember,textViewAddMentor, textViewAddProject;
-    private TextView groupName, groupDescription,point,tvMentor, textViewProject,tvProjectName, tvProjectDescription;
+    private TextView groupName, groupDescription,point,tvMentor, textViewProject,tvProjectName, tvProjectDescription, textViewSubjectName;
     private RecyclerView recyclerViewMembers, recyclerViewMembersDialog, recyclerViewMentorsDialog;
     private MemberAdapter memberAdapter;
     private MemberSearchAdapter memberAdapterSearch, mentorAdapterSearch;
@@ -118,6 +118,7 @@ public class GroupDetailActivity extends AppCompatActivity {
         groupName = findViewById(R.id.groupName);
         point = findViewById(R.id.point);
         groupDescription = findViewById(R.id.groupDescription);
+        textViewSubjectName = findViewById(R.id.textViewSubjectName);
         tvProjectDescription = findViewById(R.id.tvProjectDescription);
         recyclerViewMembers = findViewById(R.id.recyclerViewMembers);
 
@@ -431,7 +432,7 @@ public class GroupDetailActivity extends AppCompatActivity {
                                 String projectName = groupObject.getString("projectName");
                                 String mentorEmail = groupObject.getString("mentorEmail");
                                 String projectDescription = groupObject.getString("projectDescription");
-
+                                String subject = groupObject.getString("subject");
                                 double points = groupObject.has("bookingPoints") ? groupObject.optDouble("bookingPoints", 0) : 0;
 
                                 Log.d("123", mentorId);
@@ -441,6 +442,7 @@ public class GroupDetailActivity extends AppCompatActivity {
                                 // Hiển thị thông tin nhóm
                                 groupName.setText(groupObject.getString("name"));
                                 groupDescription.setText(groupObject.getString("stack"));
+                                textViewSubjectName.setText(subject);
                                 point.setText(String.valueOf(points));
                                 if(mentorName.equalsIgnoreCase("Has No Mentor Yet")){
                                     tvMentor.setVisibility(View.VISIBLE);

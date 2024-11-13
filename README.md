@@ -45,10 +45,9 @@ We would like to extend our heartfelt thanks to all the members who contributed 
 | Name | GitHub Username | Role |
 |------|-----------------|------|
 | Tran Dinh Thien Tan | [bentran1vn](https://github.com/bentran1vn) | Project Lead, FullStack Developer |
-| Luong Dang Doanh| [ZoanhLuong](https://github.com/LuongDangDoanh) | AI/Chatbot Engineer |
-| Bui Cong Bang | [CB.Bang](https://github.com/Buicongbang04) | AI/Chatbot Engineer |
-| Tran Ha Bao Long | [BLonggg](https://github.com/BLonggg608) | AI/Chatbot Engineer |
-
+| Pham Phuc Nghi | [PhucNghi176](https://github.com/PhucNghi176) | Backend Develper |
+| Do Tran Lam | [lama-try-code](https://github.com/lama-try-code) | Mobile Developer |
+| Do Thanh Son | [doson2002](https://github.com/doson2002) | Mobile Developer |
 
 We truly appreciate all your contributions and hard work in making this project successful!
 

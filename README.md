@@ -44,7 +44,7 @@ We would like to extend our heartfelt thanks to all the members who contributed 
 
 | Name | GitHub Username | Role |
 |------|-----------------|------|
-| Tran Dinh Thien Tan | [@entran1vn](https://github.com/bentran1vn) | Project Lead, FullStack Developer |
+| Tran Dinh Thien Tan | [bentran1vn](https://github.com/bentran1vn) | Project Lead, FullStack Developer |
 | Luong Dang Doanh| [ZoanhLuong](https://github.com/LuongDangDoanh) | AI/Chatbot Engineer |
 | Bui Cong Bang | [CB.Bang](https://github.com/Buicongbang04) | AI/Chatbot Engineer |
 | Tran Ha Bao Long | [BLonggg](https://github.com/BLonggg608) | AI/Chatbot Engineer |

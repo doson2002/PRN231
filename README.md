@@ -37,3 +37,19 @@ A platform designed to connect students with mentors, facilitating skill develop
 - **Authorization Repository**: [MBS-AUTHORIZATION](https://github.com/bentran1vn/MBS-AUTHORIZATION)
 - **Reverse Proxy Repository**: [MBS-REVERSE_PROXY](https://github.com/bentran1vn/MBS-REVERSE_PROXY)
 - **MBS Library Repository**: [MBS-CONTRACT](https://github.com/bentran1vn/MBS-CONTRACT)
+
+## 5. Contributors
+
+We would like to extend our heartfelt thanks to all the members who contributed to the **Mentor Booking System (MBS)** project. Your hard work and dedication have been invaluable in bringing this project to life!
+
+| Name | GitHub Username | Role |
+|------|-----------------|------|
+| Tran Dinh Thien Tan | [@entran1vn](https://github.com/bentran1vn) | Project Lead, FullStack Developer |
+| Luong Dang Doanh| [ZoanhLuong](https://github.com/LuongDangDoanh) | AI/Chatbot Engineer |
+| Bui Cong Bang | [CB.Bang](https://github.com/Buicongbang04) | AI/Chatbot Engineer |
+| Tran Ha Bao Long | [BLonggg](https://github.com/BLonggg608) | AI/Chatbot Engineer |
+
+
+We truly appreciate all your contributions and hard work in making this project successful!
+
+#### © 2024 bentran1vn.
